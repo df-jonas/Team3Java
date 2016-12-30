@@ -104,7 +104,8 @@ public class LoginController{
 			}
 			else
 			{
-				l.getLblResult().setText("Fout password, probeer opnieuw!");
+				LangageHandler.chooseLangageLbl(l.getLblResult(), "foutPass");
+				//l.getLblResult().setText("Fout password, probeer opnieuw!");
 				l.getTxtPassword().setText("");
 			}
 				
@@ -120,7 +121,8 @@ public class LoginController{
 			if (s.getRights() == 1)
 				connectionSucceed(l, s, 1);
 			else
-				l.getLblResult().setText("Geen admin rechten, probeer opnieuw!");
+				LangageHandler.chooseLangageLbl(l.getLblResult(), "geenAdmin");
+				//l.getLblResult().setText("Geen admin rechten, probeer opnieuw!");
 			
 		} else {
 			connectionSucceed(l, s, 0);
@@ -143,7 +145,8 @@ public class LoginController{
 	
 	private static void connectionError(LoginPanel l)
 	{
-		l.getLblResult().setText("User ongeldig, probeer opnieuw!");
+		LangageHandler.chooseLangageLbl(l.getLblResult(), "userOngeldig");
+		//l.getLblResult().setText("User ongeldig, probeer opnieuw!");
 		l.getTxtUsername().setText("");
 		l.getTxtPassword().setText("");
 	}

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import gui.LangageHandler;
 import gui.PassTypesAutoCompletor;
 import gui.TicketTypesAutoCompletor;
 
@@ -40,28 +41,35 @@ public class PasPrijzenAanPanel extends JPanel {
 	public PasPrijzenAanPanel() {
 		this.setLayout(new GridLayout(8, 2, 5, 5));
 
-		lblTitle = new JLabel("Wijzig prijzen");
+		lblTitle = new JLabel();
+		LangageHandler.chooseLangageLbl(lblTitle, "wijzigPrijs");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 		cboAanpasKeuze = new JComboBox<>();
 		cboAanpasKeuze.addItem("");
-		cboAanpasKeuze.addItem("Nieuw TicketType maken");
-		cboAanpasKeuze.addItem("TicketType aanpassen");
-		cboAanpasKeuze.addItem("Nieuw PassType maken");
-		cboAanpasKeuze.addItem("PassType aanpassen");
+		cboAanpasKeuze.addItem(LangageHandler.chooseLangage("nieuweTicket"));
+		cboAanpasKeuze.addItem(LangageHandler.chooseLangage("aanpasTicket"));
+		cboAanpasKeuze.addItem(LangageHandler.chooseLangage("nieuwePass"));
+		cboAanpasKeuze.addItem(LangageHandler.chooseLangage("passAanpassen"));
 		
-		lblName = new JLabel("Name: ");
-		lblPrice = new JLabel("Prijs: ");
-		lblKlasse = new JLabel("Klasse: ");
-		lblOldPrice = new JLabel("Oude prijs: ");
-
+		lblName = new JLabel();
+		LangageHandler.chooseLangageLbl(lblName, "naam");
+		lblPrice = new JLabel();
+		LangageHandler.chooseLangageLbl(lblPrice, "prijs");
+		lblKlasse = new JLabel();
+		LangageHandler.chooseLangageLbl(lblKlasse, "klasse");
+		lblOldPrice = new JLabel();
+		LangageHandler.chooseLangageLbl(lblOldPrice, "oudePrijs");
+		
 		txtName = new JTextField();
 		txtPrice = new JTextField();
 		txtOldPrice = new JTextField();
 		txtOldPrice.setEnabled(false);
-		rdbFirstclass = new JRadioButton("1ste klasse");
+		rdbFirstclass = new JRadioButton();
+		LangageHandler.chooseLangageRdb(rdbFirstclass, "1eKlasse");
 		rdbFirstclass.setMnemonic(1);
-		rdbSecondclass = new JRadioButton("2de klasse");
+		rdbSecondclass = new JRadioButton();
+		LangageHandler.chooseLangageRdb(rdbSecondclass, "2eKlasse");
 		rdbFirstclass.setMnemonic(2);
 		grpKlasse = new ButtonGroup();
 		grpKlasse.add(rdbFirstclass);
@@ -71,7 +79,8 @@ public class PasPrijzenAanPanel extends JPanel {
 		classpane.add(rdbFirstclass);
 		classpane.add(rdbSecondclass);
 		
-		btnPasAan = new JButton("Pas aan");
+		btnPasAan = new JButton();
+		LangageHandler.chooseLangageBtn(btnPasAan, "pasAan");
 		
 		autPassType = new PassTypesAutoCompletor();
 		autTicketType = new TicketTypesAutoCompletor();
@@ -79,7 +88,7 @@ public class PasPrijzenAanPanel extends JPanel {
 		this.add(lblTitle);
 		this.add(new JLabel());
 		
-		this.add(new JLabel("Maak een keuze:"));
+		this.add(new JLabel(LangageHandler.chooseLangage("maakKeuze")));
 		this.add(cboAanpasKeuze);
 		
 		this.add(new JLabel());
@@ -105,7 +114,7 @@ public class PasPrijzenAanPanel extends JPanel {
 		this.add(lblTitle);
 		this.add(new JLabel());
 		
-		this.add(new JLabel("Maak een keuze:"));
+		this.add(new JLabel(LangageHandler.chooseLangage("maakKeuze")));
 		this.add(cboAanpasKeuze);
 		
 		this.add(new JLabel());
@@ -131,7 +140,7 @@ public class PasPrijzenAanPanel extends JPanel {
 			this.add(btnPasAan);
 			break;
 		case 2:
-			this.add(new JLabel("PassType: "));
+			this.add(new JLabel(LangageHandler.chooseLangage("type")));
 			this.add(autTicketType);
 			
 			this.add(lblKlasse);
@@ -163,7 +172,7 @@ public class PasPrijzenAanPanel extends JPanel {
 			this.add(btnPasAan);
 			break;
 		case 4:
-			this.add(new JLabel("PassType: "));
+			this.add(new JLabel(LangageHandler.chooseLangage("type")));
 			this.add(autPassType);
 			
 			this.add(lblOldPrice);

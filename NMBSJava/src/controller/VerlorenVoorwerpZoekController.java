@@ -1,175 +1,218 @@
 package controller;
 
 import java.awt.EventQueue;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 
-import org.json.JSONArray;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import gui.Popup;
-import model.SettingsSingleton;
+
+import model.Station;
 import panels.VerlorenVoorwerpZoekPanel;
+import dao.LostObjectDAO;
+import dao.StationDAO;
+import model.LostObject;
 
 public class VerlorenVoorwerpZoekController {
-
-	private static ArrayList<String> desc;
-	private static JSONArray json;
-	private static SettingsSingleton settings;
-
 	public static void startListening(VerlorenVoorwerpZoekPanel verlorenVoorwerpZoek) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				settings = SettingsSingleton.getSettings();
 				verlorenVoorwerpZoek.getBtnToonAlles().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						readUrl();
+						String station = verlorenVoorwerpZoek.getTxtStation().getSelectedItem().toString();
 
-						int station = verlorenVoorwerpZoek.getTxtStation().getSelectedIndex() + 1;
+						ArrayList<LostObject> lostObjList = new ArrayList<LostObject>();
+						LostObjectDAO lostObjD = new LostObjectDAO();
+						lostObjList = lostObjD.selectAll();
 
-						desc = new ArrayList<String>();
-						for (int i = 0; i < json.length(); i++) {
-							if (json.getJSONObject(i).getJSONObject("Station").getInt("StationID") == station) {
-								String v = json.getJSONObject(i).getJSONObject("Station").getString("Name") + " "
-										+ json.getJSONObject(i).getString("TrainID") + " "
-										+ json.getJSONObject(i).getString("Description") + " "
-										+ json.getJSONObject(i).getString("Date");
-								desc.add(v);
-							} else {
-								verlorenVoorwerpZoek.getLblResultat()
-										.setText("Er werd geen voorwerp in deze station teruggevonden!");
+						ArrayList<Station> stationList = new ArrayList<Station>();
+						StationDAO stationD = new StationDAO();
+						stationList = stationD.selectAll();
+
+						UUID stationID = null;
+
+						for (int i = 0; i<stationList.size();i++)
+						{
+							if (station.equals(stationList.get(i).getStationName()))
+							{
+								stationID = stationList.get(i).getStationID();
 							}
 						}
-						String ss = "";
-						for (String v : desc) {
-							ss += v + "\n";
-						}
-						verlorenVoorwerpZoek.getLblResultat().setText("<html>" + ss.replaceAll("<", "&lt;")
-								.replaceAll(">", "&gt;").replaceAll("\n", "<br/>").replaceAll("_", " ") + "</html>");
-					}
 
+						ArrayList<String> strVoorwerp = new ArrayList<String>();
+
+						boolean check = false;
+						for (int i=0;i<lostObjList.size();i++)
+						{
+							if(stationID.equals(lostObjList.get(i).getStationID()))
+							{
+								String gevonden = "";
+								if (lostObjList.get(i).getFound() == true)
+								{
+									gevonden = "Gevonden";
+								}
+								else
+								{
+									gevonden = "Niet gevonden";
+								}
+								
+								String temp =  lostObjList.get(i).getTrainID() + "&nbsp;&nbsp;&nbsp;&nbsp;" + lostObjList.get(i).getDescription() + "&nbsp;&nbsp;&nbsp;&nbsp;" + lostObjList.get(i).getDate() + "&nbsp;&nbsp;&nbsp;&nbsp;" + gevonden;
+								strVoorwerp.add(temp);
+								check = true;
+								System.out.println("tetestestest");
+							}
+						}
+
+						String ss = "";
+						for(String temp: strVoorwerp)
+						{
+							ss += temp + "\n";
+						}
+
+						verlorenVoorwerpZoek.getLblResultat().setText("<html>" + ss.replaceAll("<", "&lt;")
+						.replaceAll(">", "&gt;").replaceAll("\n", "<br/>").replaceAll("\t", "    ") + "</html>");		
+
+						if (check == false)
+						{
+							Popup.plainMessage("lostObjToonAllesPopup", "lostObjToonAllesPopupTitel");
+						}
+					}
 				});
 
 				verlorenVoorwerpZoek.getBtnZoek().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						readUrl();
 
-						// int station =
-						// verlorenVoorwerpZoek.getTxtStation().getSelectedIndex()+1;
-						String treinNummer = verlorenVoorwerpZoek.getTxtTreinNummer().getText();
-						String datum = verlorenVoorwerpZoek.getDatePicker().getJFormattedTextField().getText();
-						String omschrijving = verlorenVoorwerpZoek.getTxtOmschrijving().getText();
+						String treinnummer = verlorenVoorwerpZoek.getTxtTreinNummer().getText();
+						//String datum = verlorenVoorwerpZoek.getDatePicker().getJFormattedTextField().getText();
+						//String omschrijving = verlorenVoorwerpZoek.getTxtOmschrijving().getText();
 
-						if (treinNummer.equals("")) {
-							Popup.errorMessage("zoekErrorPopup", "zoekErrorPopupTitel");
-						} else {
-							String ss = null;
-							String error = "Er werd geen voorwerp teruggevonden!";
-							for (int i = 0; i < json.length(); i++) {
-								if (json.getJSONObject(i).getString("TrainID").equals(treinNummer)
-										&& json.getJSONObject(i).getString("Date").equals(datum)) {
-									ss = json.getJSONObject(i).getString("TrainID") + " "
-											+ json.getJSONObject(i).getString("Description") + " "
-											+ json.getJSONObject(i).getString("Date");
-									verlorenVoorwerpZoek.getLblResultat()
-											.setText("<html>"
-													+ ss.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-															.replaceAll("\n", "<br/>").replaceAll("_", " ")
-													+ "</html>");
-									System.out.println(ss);
+						if (treinnummer.equals("")) 
+						{
+							Popup.warningMessage("zoekErrorPopup", "zoekErrorPopupTitel");
+						} 
+						else 
+						{
+							String station = verlorenVoorwerpZoek.getTxtStation().getSelectedItem().toString();
+
+							ArrayList<LostObject> lostObjList = new ArrayList<LostObject>();
+							LostObjectDAO lostObjD = new LostObjectDAO();
+							lostObjList = lostObjD.selectAll();
+
+							ArrayList<Station> stationList = new ArrayList<Station>();
+							StationDAO stationD = new StationDAO();
+							stationList = stationD.selectAll();
+
+							UUID stationID = null;
+
+							for (int i = 0; i<stationList.size();i++)
+							{
+								if (station.equals(stationList.get(i).getStationName()))
+								{
+									stationID = stationList.get(i).getStationID();
 								}
 							}
 
-							if (ss == null) {
-								verlorenVoorwerpZoek.getLblResultat().setText("<html>" + error.replaceAll("<", "&lt;")
-										.replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
+							ArrayList<String> strVoorwerp = new ArrayList<String>();
 
-								// String station =
-								// verlorenVoorwerpZoek.getTxtStation().getSelectedIndex()+1;
-								// String treinNummer =
-								// verlorenVoorwerpZoek.getTxtTreinNummer().getText();
-								// String datum =
-								// verlorenVoorwerpZoek.getDatePicker().getJFormattedTextField().getText();
-								//
-								// String ss=null;
-								// String error ="Er werd geen voorwerp
-								// teruggevonden!";
-								// for (int i = 0;i<json.length();i++) {
-								// if
-								// (json.getJSONObject(i).getString("TrainID").equals(treinNummer)
-								// &&
-								// json.getJSONObject(i).getString("Date").equals(datum)
-								// &&
-								// json.getJSONObject(i).getJSONObject("Station").getString("StationID")
-								// == station) {
-								// ss =
-								// json.getJSONObject(i).getJSONObject("Station").getString("Name")+
-								// " " +
-								// json.getJSONObject(i).getString("TrainID") +
-								// " "
-								// +json.getJSONObject(i).getString("Description")
-								// +" "+
-								// json.getJSONObject(i).getString("Date");
-								// verlorenVoorwerpZoek.getLblResultat().setText("<html>"
-								// + ss.replaceAll("<", "&lt;").replaceAll(">",
-								// "&gt;").replaceAll("\n",
-								// "<br/>").replaceAll("_", " ")
-								// + "</html>");
-								// }
-								// }
-								//
-								// if (ss == null){
-								// verlorenVoorwerpZoek.getLblResultat().setText("<html>"
-								// + error.replaceAll("<",
-								// "&lt;").replaceAll(">",
-								// "&gt;").replaceAll("\n", "<br/>")
-								// + "</html>");
-								// }
+							boolean check = false;
+							for (int i=0;i<lostObjList.size();i++)
+							{
+								if(stationID.equals(lostObjList.get(i).getStationID()) && treinnummer.equals(lostObjList.get(i).getTrainID()))
+								{
+									String gevonden = "";
+									if (lostObjList.get(i).getFound() == true)
+									{
+										gevonden = "Gevonden";
+									}
+									else
+									{
+										gevonden = "Niet gevonden";
+									}
+									
+									String temp =  lostObjList.get(i).getTrainID() +"&nbsp;&nbsp;&nbsp;&nbsp;" +  lostObjList.get(i).getDescription() +"&nbsp;&nbsp;&nbsp;&nbsp;" + lostObjList.get(i).getDate() +"&nbsp;&nbsp;&nbsp;&nbsp;"+ gevonden;
+									strVoorwerp.add(temp);
+									check = true;
+								}
+							}
+
+							String ss = "";
+							for(String temp: strVoorwerp)
+							{
+								ss += temp + "\n";
+							}
+
+							verlorenVoorwerpZoek.getLblResultat().setText("<html>" + ss.replaceAll("<", "&lt;")
+							.replaceAll(">", "&gt;").replaceAll("\n", "<br/>").replaceAll("\t", "    ") + "</html>");		
+
+							if (check == false)
+							{
+								Popup.plainMessage("lostObjToonAllesPopup", "lostObjToonAllesPopupTitel");
 							}
 						}
 					}
-
 				});
+				
+				verlorenVoorwerpZoek.getBtnGevonden().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String station = verlorenVoorwerpZoek.getTxtStation().getSelectedItem().toString();
+						String treinnummer = verlorenVoorwerpZoek.getTxtTreinNummer().getText();
+						String omschrijving = verlorenVoorwerpZoek.getTxtOmschrijving().getText();
+						
+						if (treinnummer.equals("") || omschrijving.equals("")) 
+						{
+							Popup.warningMessage("WarningPopup", "WarningPopupTitel");
+						} 
+						else 
+						{
+							ArrayList<Station> stationList = new ArrayList<Station>();
+							StationDAO stationD = new StationDAO();
+							stationList = stationD.selectAll();
+
+							UUID stationID = null;
+
+							for (int i = 0; i<stationList.size();i++)
+							{
+								if (station.equals(stationList.get(i).getStationName()))
+								{
+									stationID = stationList.get(i).getStationID();
+								}
+							}
+							
+							ArrayList<LostObject> lostObjList = new ArrayList<LostObject>();
+							LostObjectDAO lostObjD = new LostObjectDAO();
+							lostObjList = lostObjD.selectAll();
+							LostObject lostObject = new LostObject();
+							
+							boolean check = false;
+							
+							for (int i = 0 ; i<lostObjList.size();i++)
+							{
+								if (stationID.equals(lostObjList.get(i).getStationID()) || treinnummer.equals(lostObjList.get(i).getTrainID()) || omschrijving.equals(lostObjList.get(i).getDescription()))
+								{
+									lostObject = lostObjList.get(i);
+									lostObject.setFound(true);
+									check = true;
+								}
+							}
+							
+							if (check == true)
+							{
+								try{
+									lostObjD.update(lostObject);
+								} catch(NullPointerException e1) {
+									Popup.errorMessage("voorwerpWarningPopup", "voorwerpWarningPopupTitel");
+								}
+								Popup.plainMessage("zoekGevondenPopup", "zoekGevondenPopupTitel" );
+							}
+						}
+					}
+				});
+				
 			}
 		});
 	}
-
-	private static void readUrl() {
-
-		BufferedReader reader = null;
-		try {
-			URL url = new URL("http://nmbs-team.tk/api/" + "lostObject");
-
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-			connection.setRequestMethod("GET");
-
-			connection.setRequestProperty("Authorization", "Bearer " + settings.getApiToken());
-			connection.setRequestProperty("Content-Type", "application/json");
-			connection.setRequestProperty("User-Agent",
-					"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.29 Safari/537.36");
-			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuffer buffer = new StringBuffer();
-			int read;
-			char[] chars = new char[1024];
-			while ((read = reader.read(chars)) != -1)
-				buffer.append(chars, 0, read);
-
-			json = new JSONArray(buffer.toString());
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 }
+

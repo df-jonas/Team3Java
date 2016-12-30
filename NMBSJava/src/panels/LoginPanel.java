@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 import gui.LangageHandler;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unchecked", "rawtypes"})
 public class LoginPanel extends JPanel {
 
 	private JLabel lblLangage;

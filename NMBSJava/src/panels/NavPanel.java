@@ -23,7 +23,7 @@ public class NavPanel extends JPanel {
 	private JButton btnAbonnementVerlengen;
 	private JButton btnGroepsreservatie;
 	private JButton btnPrijzenAanpassen;
-	private JButton btnVoegMedewerker;
+	private JButton btnStaffBeheer;
 	private JButton btnLogout;
 	private JButton btnKlantZoek;
 	private JButton btnKlantPasAan;
@@ -85,9 +85,9 @@ public class NavPanel extends JPanel {
 		LangageHandler.chooseLangageBtn(btnPrijzenAanpassen, "pasPrijzen");
 		btnPrijzenAanpassen.setHorizontalAlignment(SwingConstants.LEFT);
 
-		btnVoegMedewerker = new JButton();
-		LangageHandler.chooseLangageBtn(btnVoegMedewerker, "voegMedewerker");
-		btnVoegMedewerker.setHorizontalAlignment(SwingConstants.LEFT);
+		btnStaffBeheer = new JButton();
+		LangageHandler.chooseLangageBtn(btnStaffBeheer, "voegMedewerker");
+		btnStaffBeheer.setHorizontalAlignment(SwingConstants.LEFT);
 
 		btnKlantZoek = new JButton("Zoek een klant");
 		btnKlantZoek.setHorizontalAlignment(SwingConstants.LEFT);
@@ -122,7 +122,7 @@ public class NavPanel extends JPanel {
 		this.add(btnbtnVerlorenVoorwerpenVoegToe);
 		this.add(btnGroepsreservatie);
 		this.add(btnPrijzenAanpassen);
-		this.add(btnVoegMedewerker);
+		this.add(btnStaffBeheer);
 		this.add(btnKlantZoek);
 		this.add(btnKlantPasAan);
 		this.add(btnLogout);
@@ -170,8 +170,8 @@ public class NavPanel extends JPanel {
 		return btnLogout;
 	}
 
-	public JButton getBtnVoegMedewerker() {
-		return btnVoegMedewerker;
+	public JButton getBtnStaffBeheer() {
+		return btnStaffBeheer;
 	}
 
 	public JButton getBtnPassKoop() {

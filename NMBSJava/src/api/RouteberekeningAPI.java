@@ -1,24 +1,18 @@
 package api;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import controller.APIController.APIUrl;
-import controller.APIController.RequestType;
 import controller.DateTimeConverter;
+import controller.URLCon;
 import gui.GUIDateFormat;
-import services.APIRequest;
-import services.APIThread;
-import services.ThreadListener;
+import gui.LangageHandler;
 
 public class RouteberekeningAPI {
 
+	private JSONObject json;
 	private String van;
 	private String naar;
 	private String version;
@@ -27,42 +21,26 @@ public class RouteberekeningAPI {
 
 	public RouteberekeningAPI(String from, String to) 
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("to", to);
-		params.put("from", from);
-		params.put("date", GUIDateFormat.getRawDate());
-		params.put("time", GUIDateFormat.getRawTime());
-		params.put("timeSel", "depart");
-		params.put("format", "json");
-		params.put("lang", "NL");
+		try {
+			this.json = new JSONObject(URLCon.readUnsecureUrl("https://api.irail.be/connections/?to=" + to + "&from="
+					+ from + "&date=" + GUIDateFormat.getRawDate() + "&time=" + GUIDateFormat.getRawTime()
+					+ "&timeSel=depart&format=json&lang=NL"));
 
-		UUID requestID = UUID.randomUUID();
-		APIRequest request = new APIRequest(requestID, APIUrl.IRAILS, "connections", RequestType.GET, params);
-		
-		ThreadListener listener = new ThreadListener() {
-
-			@Override
-			public void setResult(JSONArray data)
-			{
-				JSONObject json = data.getJSONObject(0);
-				
-				van = from;
-				naar = to;
-				version = json.getString("version");
-				timestamp = json.getString("timestamp");
-				connections = new ArrayList<ConnectionAPI>();
-				for (int i = 0; i < json.getJSONArray("connection").length(); i++) {
-					ConnectionAPI e = new ConnectionAPI(json.getJSONArray("connection").getJSONObject(i));
-					connections.add(e);
-				}
-				
+			this.van = from;
+			this.naar = to;
+			this.version = this.json.getString("version");
+			this.timestamp = this.json.getString("timestamp");
+			this.connections = new ArrayList<ConnectionAPI>();
+			for (int i = 0; i < this.json.getJSONArray("connection").length(); i++) {
+				ConnectionAPI e = new ConnectionAPI(this.json.getJSONArray("connection").getJSONObject(i));
+				connections.add(e);
 			}
-			
-		};
-		
-		APIThread apiThread = APIThread.getThread();
-		apiThread.addListener(requestID, listener);
-		apiThread.addAPIRequest(request);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public RouteberekeningAPI(String from, String to, String date, String time, TimeSelector timeSel) {
@@ -79,47 +57,23 @@ public class RouteberekeningAPI {
 				tempTimeSel = "depart";
 				break;
 			}
-			
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("to", to);
-			params.put("from", from);
-			params.put("date", GUIDateFormat.getRawDate(date));
-			params.put("time", GUIDateFormat.getRawTime(time));
-			params.put("timeSel", tempTimeSel);
-			params.put("format", "json");
-			params.put("lang", "NL");
+			this.json = new JSONObject(URLCon.readUnsecureUrl("https://api.irail.be/connections/?to=" + to + "&from="
+					+ from + "&date=" + GUIDateFormat.getRawDate(date) + "&time=" + GUIDateFormat.getRawTime(time)
+					+ "&timeSel=" + tempTimeSel + "&format=json&lang=NL"));
 
-			UUID requestID = UUID.randomUUID();
-			APIRequest request = new APIRequest(requestID, APIUrl.IRAILS, "connections", RequestType.GET, params);
-			
-			ThreadListener listener = new ThreadListener() {
-
-				@Override
-				public void setResult(JSONArray data)
-				{
-					JSONObject json = data.getJSONObject(0);
-					
-					van = from;
-					naar = to;
-					version = json.getString("version");
-					timestamp = json.getString("timestamp");
-					connections = new ArrayList<ConnectionAPI>();
-					
-					for (int i = 0; i < json.getJSONArray("connection").length(); i++) 
-					{
-						ConnectionAPI e = new ConnectionAPI(json.getJSONArray("connection").getJSONObject(i));
-						connections.add(e);
-					}
-					
-				}
-				
-			};
-			
-			APIThread apiThread = APIThread.getThread();
-			apiThread.addListener(requestID, listener);
-			apiThread.addAPIRequest(request);
+			this.van = from;
+			this.naar = to;
+			this.version = this.json.getString("version");
+			this.timestamp = this.json.getString("timestamp");
+			this.connections = new ArrayList<ConnectionAPI>();
+			for (int i = 0; i < this.json.getJSONArray("connection").length(); i++) {
+				ConnectionAPI e = new ConnectionAPI(this.json.getJSONArray("connection").getJSONObject(i));
+				connections.add(e);
+			}
 
 		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -148,12 +102,12 @@ public class RouteberekeningAPI {
 			ss += "\n";
 
 			// ROUTE EXTRA INFO
-			ss += this.getConnections().get(i).getDuration() + " minuten";
+			ss += this.getConnections().get(i).getDuration() + " " + LangageHandler.chooseLangage("minuten");
 			if (!this.getConnections().get(i).getNumberOfVias().equals("0")) {
-				ss += " - " + this.getConnections().get(i).getNumberOfVias() + " keer overstappen";
+				ss += " - " + this.getConnections().get(i).getNumberOfVias() + " " + LangageHandler.chooseLangage("overstappen");
 			}
 			if (!this.getConnections().get(i).getDeparture().getCancelled().equals("0")) {
-				ss += " - AFGELAST";
+				ss += " - " + LangageHandler.chooseLangage("afgelast");
 			}
 			ss += "\n\n";
 

@@ -120,7 +120,9 @@ public class NieuwAbonnementPanel extends JPanel {
 		lblStartDatum = new JLabel("Startdatum: ");
 		lblKlasse = new JLabel("Klasse: ");
 		rdbEersteKlasse = new JRadioButton("1e Klas");
+		rdbEersteKlasse.setMnemonic(1);
 		rdbTweedeKlasse = new JRadioButton("2e Klas");
+		rdbTweedeKlasse.setMnemonic(2);
 		rdbTweedeKlasse.setSelected(true);
 		lblTreinkaart = new JLabel("Type treinkaart: ");
 		lblDiscount = new JLabel("Korting: ");

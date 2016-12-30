@@ -68,8 +68,8 @@ public class TreinopzoekingPanel extends JPanel {
 		LangageHandler.chooseLangageLbl(lblTitle, "treinOpzoeken");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
-		lblTrein = new JLabel("<html>Trein:<br>(enkel nummer, geen prefix type)</html>");
-		//LangageHandler.chooseLangage(lblTrein, taal, "trein");
+		lblTrein = new JLabel("");
+		LangageHandler.chooseLangageLbl(lblTrein, "trein");
 		txtTrein = new JTextField("");
 
 		btnZoek = new JButton("Zoek");

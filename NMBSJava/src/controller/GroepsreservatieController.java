@@ -8,9 +8,14 @@ import java.util.UUID;
 import api.RouteberekeningAPI;
 import api.TimeSelector;
 import dao.ReservationDAO;
+import dao.RouteDAO;
+import dao.StationDAO;
 import gui.GUIDateFormat;
+import gui.LangageHandler;
 import gui.Popup;
 import model.Reservation;
+import model.Route;
+import model.Station;
 import panels.GroepsReservatiePanel;
 
 public class GroepsreservatieController {
@@ -23,7 +28,7 @@ public class GroepsreservatieController {
 	private static String time;
 	private static boolean vanOke = false, naarOke = false;
 	private static double prijs;
-	private static UUID route;
+	private static UUID routeID;
 	public static void startListening(GroepsReservatiePanel reservatie) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -53,16 +58,17 @@ public class GroepsreservatieController {
 						van = (String) reservatie.getAutVan().getSelectedItem();
 						naar = (String) reservatie.getAutNaar().getSelectedItem();
 						datum = reservatie.getDteDate().getJFormattedTextField().getText();
-						trein = reservatie.getCboTrein().getSelectedItem().toString();
+						trein = (String) reservatie.getCboTrein().getSelectedItem();
 						aantalReizigers = (int) reservatie.getAantPersonen().getValue();
 						time = reservatie.getTmeTime().getText();
 
 						if (!van.equals("") && !naar.equals("") && DateTimeConverter.checkDate(datum)
 								 && !trein.equals(null)) {
 							ReservationDAO res = new ReservationDAO();
-							Reservation r = new Reservation(aantalReizigers, trein, prijs,datum, route);
+							readRouteID();
+							Reservation r = new Reservation(aantalReizigers, trein, prijs,datum, routeID);
 							res.insert(r);
-							System.out.println("Reservatie succesvol aangemaakt.");
+							System.out.println(LangageHandler.chooseLangage("resSucces"));
 						}
 					}
 
@@ -72,6 +78,22 @@ public class GroepsreservatieController {
 
 		});
 
+	}
+	
+	public static void readRouteID() {
+		RouteDAO r = new RouteDAO();
+		StationDAO handler = new StationDAO();
+		Station s1 = handler.selectOneOnName(van);
+		Station s2 = handler.selectOneOnName(naar);
+		Route route = r.selectOneOnRoute(s1.getStationID().toString(), s2.getStationID().toString());
+		if (route != null) {
+			routeID = route.getRouteID();
+		} else {
+			System.out.println("Route bestaat niet");
+			route = new Route(s1.getStationID(), s2.getStationID());
+			r.insert(route);
+			routeID = route.getRouteID();
+		}
 	}
 
 	private static void zoekTreinen(GroepsReservatiePanel reservatie) {

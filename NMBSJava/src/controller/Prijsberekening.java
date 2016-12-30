@@ -65,6 +65,7 @@ public abstract class Prijsberekening {
 				zones = 1;
 			price = price + (zones*(price / 10));
 		}
+			break;
 		case ABONNEMENT: {
 			TypeTicketDAO handler = new TypeTicketDAO();
 			TypeTicket type = handler.selectOne(typeID);
