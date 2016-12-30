@@ -3,16 +3,17 @@ package dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 import controller.APIController.APIUrl;
 import controller.APIController.RequestType;
+import services.APIRequest;
 import services.APIThread;
 
 public abstract class BaseDAO
 {
 	private Connection connection;
 	
-	private APIThread g3API;
 	protected HashMap<String, String> params;
 	protected Boolean isSyncFunction;
 
@@ -39,8 +40,9 @@ public abstract class BaseDAO
 	
 	protected void syncMainDB(String url, RequestType requestType, HashMap<String, String> params)
 	{
-		g3API = new APIThread(APIUrl.G3, url, requestType, params, false);
-		g3API.start();
+		APIRequest request = new APIRequest(UUID.randomUUID(),APIUrl.G3, url, requestType, params, false);
+		APIThread apiThread = APIThread.getThread();
+		apiThread.addAPIRequest(request);
 	}
 	
 	public void setSyncFunction()

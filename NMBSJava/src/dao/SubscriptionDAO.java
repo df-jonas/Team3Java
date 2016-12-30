@@ -282,7 +282,7 @@ public class SubscriptionDAO extends BaseDAO
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 
-		String sql = "SELECT s.SubscriptionID, s.RailCardID, c.LastUpdated as RailCardLastUpdated, "
+		String sql = "SELECT s.SubscriptionID, c.CardID, c.LastUpdated as RailCardLastUpdated, "
 				+ "r.RouteID, "
 				+ "r.DepartureStationID, s1.Name as DepartureName, s1.CoX as DepartureCoX, s1.CoY as DepartureCoY, s1.LastUpdated as DepartureLastUpdated,"
 				+ "r.ArrivalStationID, s2.Name as ArrivalName, s2.CoX as ArrivalCoX, s2.CoY as ArrivalCoY, s2.LastUpdated as ArrivalLastUpdated, r.LastUpdated as RouteLastUpdated, "
@@ -295,7 +295,7 @@ public class SubscriptionDAO extends BaseDAO
 				+ "INNER JOIN Station s1 on s1.StationID = r.DepartureStationID "
 				+ "INNER JOIN Station s2 on s2.StationID = r.ArrivalStationID "
 				+ "INNER JOIN Discount d ON d.DiscountID = s.DiscountID "
-				+ "WHERE SubscriptionID = ?;";
+				+ "Where s.SubscriptionID =?;";
 		try {
 
 			if (getConnection().isClosed()) {
@@ -327,7 +327,7 @@ public class SubscriptionDAO extends BaseDAO
 			}
 		}
 	}
-
+	
 	private Subscription resultToModel(ResultSet rs) throws SQLException
 	{
 		Subscription s = new Subscription();
@@ -338,7 +338,7 @@ public class SubscriptionDAO extends BaseDAO
 		d = DiscountDAO.resultToModel(rs);
 
 		s.setSubscriptionID(UUID.fromString(rs.getString("SubscriptionID")));
-		s.setRailCardID(UUID.fromString(rs.getString("RailCardID")));
+		s.setRailCardID(UUID.fromString(rs.getString("CardID")));
 		s.setRoute(r);
 		s.setDiscount(d);
 		s.setValidFrom(rs.getString("ValidFrom"));
@@ -353,7 +353,7 @@ public class SubscriptionDAO extends BaseDAO
 		Subscription s = new Subscription();
 
 		s.setSubscriptionID(UUID.fromString(rs.getString("SubscriptionID")));
-		s.setRailCardID(UUID.fromString(rs.getString("RailCardID")));
+		s.setRailCardID(UUID.fromString(rs.getString("CardID")));
 		s.setRouteID(UUID.fromString(rs.getString("RouteID")));
 		s.setDiscountID(UUID.fromString(rs.getString("DiscountID")));
 		s.setValidFrom(rs.getString("ValidFrom"));

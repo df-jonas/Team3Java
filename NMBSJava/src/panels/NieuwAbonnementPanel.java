@@ -1,22 +1,37 @@
 package panels;
 
-import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.UUID;
 
-
-import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.GridLayout;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import java.util.Properties;
-import org.jdatepicker.impl.*;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import dao.DiscountDAO;
 import gui.GUIDateFormat;
 import gui.StationsAutoCompletor;
+import model.Discount;
 
 public class NieuwAbonnementPanel extends JPanel {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4090414931591291748L;
+
+	private HashMap<String, UUID> discountMap;
 	
 	private JPanel pnlKlasse;
 	private JPanel pnlCustomerID;
@@ -69,13 +84,21 @@ public class NieuwAbonnementPanel extends JPanel {
 	private JDatePickerImpl dteGeboorteDatum;
 	private JDatePickerImpl dteStartDatum;
 
-	private JComboBox cbxTreinkaart;
-	private JComboBox cbxDuur;
-	private JComboBox cbxDiscount;
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private JComboBox<String> cbxTreinkaart;
+	private JComboBox<String> cbxDuur;
+	private JComboBox<String> cbxDiscount;
+	
+	//@SuppressWarnings({ "rawtypes", "unchecked" })
 	public NieuwAbonnementPanel() {
 
+		discountMap = new HashMap<String, UUID>();
+		ArrayList<Discount> discountList = new DiscountDAO().selectAll();
+		
+		for (Discount discount : discountList)
+		{
+			discountMap.put(discount.getName(), discount.getDiscountID());
+		}
+		
 		lblTitle = new JLabel("Nieuw Abonnement");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
@@ -138,13 +161,13 @@ public class NieuwAbonnementPanel extends JPanel {
 
 
 		String[] soortKaart = { "Trajecttreinkaart", "Halftijdstreinkaart", "Nettreinkaart", "Schooltreinkaart" };
-		cbxTreinkaart = new JComboBox(soortKaart);
+		cbxTreinkaart = new JComboBox<String>(soortKaart);
 		
 		String[] aantalMaanden = { "1 maand", "3 maanden", "12 maanden"};
-		cbxDuur = new JComboBox(aantalMaanden);
+		cbxDuur = new JComboBox<String>(aantalMaanden);
 		
-		String[] soortDiscount = {"Geen", "Student", "Gepensioneerd"};
-		cbxDiscount = new JComboBox(soortDiscount);
+		String[] soortDiscount = discountMap.keySet().toArray(new String[discountMap.size()]);
+		cbxDiscount = new JComboBox<String>(soortDiscount);
 		
 		fullpanel();
 		
@@ -398,15 +421,15 @@ public class NieuwAbonnementPanel extends JPanel {
 		return dteStartDatum;
 	}
 
-	public JComboBox getCbxTreinkaart() {
+	public JComboBox<String> getCbxTreinkaart() {
 		return cbxTreinkaart;
 	}
 
-	public JComboBox getCbxDuur() {
+	public JComboBox<String> getCbxDuur() {
 		return cbxDuur;
 	}
 
-	public JComboBox getCbxDiscount() {
+	public JComboBox<String> getCbxDiscount() {
 		return cbxDiscount;
 	}
 	
@@ -457,6 +480,10 @@ public class NieuwAbonnementPanel extends JPanel {
 		this.dteGeboorteDatum.getJFormattedTextField().setText(dteGeboorteDatum);
 	}
 	
+	public HashMap<String, UUID> getDiscounts()
+	{
+		return this.discountMap;
+	}
 	
 
 }

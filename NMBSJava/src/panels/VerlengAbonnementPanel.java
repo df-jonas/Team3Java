@@ -16,11 +16,18 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import gui.DiscountAutoCompletor;
 import gui.GUIDateFormat;
+import gui.PassTypesAutoCompletor;
 import gui.StationsAutoCompletor;
 
 public class VerlengAbonnementPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 415637730753605814L;
+	
 	private JPanel pnlZoek;
 	private JPanel pnlInfo;
 	private JPanel pnlKlasse;
@@ -62,10 +69,11 @@ public class VerlengAbonnementPanel extends JPanel {
 	
 	private StationsAutoCompletor txtStation1;
 	private StationsAutoCompletor txtStation2;
+	private DiscountAutoCompletor getCbxDiscount;
+	private PassTypesAutoCompletor cbxTypeTicket;
 	
-	private JComboBox cbxTreinkaart;
-	private JComboBox cbxDuur;
-	private JComboBox cbxDiscount;
+
+	private JComboBox<String> cbxDuur;
 
 	public VerlengAbonnementPanel() {
 		
@@ -80,8 +88,10 @@ public class VerlengAbonnementPanel extends JPanel {
 		lblKLantenNummerResult = new JLabel(" ");
 		btnMeerInfo = new JButton("Meer info");
 		lblTreinkaart = new JLabel("Treinkaart: ");
-		String[] str = { "Trajecttreinkaart", "Halftijdstreinkaart", "Nettreinkaart", "Schooltreinkaart" };
-		cbxTreinkaart = new JComboBox(str);
+		
+		
+		
+		cbxTypeTicket = new PassTypesAutoCompletor();;
 		lblStartdatum = new JLabel("Startdatum: ");
 		Properties properties = new Properties();
 		properties.put("text.today", "Today");
@@ -92,16 +102,17 @@ public class VerlengAbonnementPanel extends JPanel {
 		dteStartdatum.getJFormattedTextField().setText(GUIDateFormat.getDate());
 		lblDuur = new JLabel("Duur: ");
 		String[] aantalMaanden = { "1 maand", "3 maanden", "12 maanden"};
-		cbxDuur = new JComboBox(aantalMaanden);
+		cbxDuur = new JComboBox<String>(aantalMaanden);
 		lblVervaldatum = new JLabel("Vervaldatum: ");
 		lblVervaldatumResult = new JLabel(" ");
 		lblKlasse = new JLabel("Klasse: ");
 		rdbEersteKlasse = new JRadioButton("1e Klas");
+		rdbEersteKlasse.setMnemonic(1);
 		rdbTweedeKlasse = new JRadioButton("2e Klas");
+		rdbTweedeKlasse.setMnemonic(2);
 		rdbTweedeKlasse.setSelected(true);
 		lblDiscount=new JLabel("Korting: ");
-		String[] soortDiscount = {"Geen", "Student", "Gepensioneerd"};
-		cbxDiscount = new JComboBox(soortDiscount);
+		getCbxDiscount = new DiscountAutoCompletor();
 		lblStation1 = new JLabel("Station 1: ");
 		txtStation1 = new StationsAutoCompletor();
 		lblStation2 = new JLabel("Station 2: ");
@@ -135,7 +146,7 @@ public class VerlengAbonnementPanel extends JPanel {
 		this.add(pnlInfo);
 		
 		this.add(lblTreinkaart);
-		this.add(cbxTreinkaart);
+		this.add(cbxTypeTicket);
 		
 		this.add(lblKlasse);
 		klassePanel();
@@ -148,7 +159,7 @@ public class VerlengAbonnementPanel extends JPanel {
 		this.add(lblVervaldatum);
 		this.add(lblVervaldatumResult);
 		this.add(lblDiscount);
-		this.add(cbxDiscount);
+		this.add(getCbxDiscount);
 		this.add(lblStation1);
 		this.add(txtStation1);
 		this.add(lblStation2);
@@ -312,16 +323,16 @@ public class VerlengAbonnementPanel extends JPanel {
 		return txtStation2;
 	}
 
-	public JComboBox getCbxTreinkaart() {
-		return cbxTreinkaart;
+	public PassTypesAutoCompletor getCbxTreinkaart() {
+		return cbxTypeTicket;
 	}
 
-	public JComboBox getCbxDuur() {
+	public JComboBox<String> getCbxDuur() {
 		return cbxDuur;
 	}
 
-	public JComboBox getCbxDiscount() {
-		return cbxDiscount;
+	public DiscountAutoCompletor getCbxDiscount() {
+		return getCbxDiscount;
 	}
 
 	public JLabel getLblFoutmelding(){

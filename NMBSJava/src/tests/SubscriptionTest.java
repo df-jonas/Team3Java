@@ -27,7 +27,6 @@ public class SubscriptionTest {
 	@Before
 	public void setUp() throws Exception {
 		sub = new Subscription(railID, routeID, discountID, datumvan, datumtot);
-		sub2 = new Subscription(railID, routeID, datumvan, datumtot);
 		sub.setRailCardID(railID);
 		sub.setRouteID(routeID);
 		sub.setDiscountID(discountID);
@@ -41,14 +40,6 @@ public class SubscriptionTest {
 		assertEquals(discountID,sub.getDiscountID());
 		assertEquals(datumvan,sub.getValidFrom());
 		assertEquals(datumtot,sub.getValidUntil());
-	}
-	
-	@Test
-	public void ConstructorTest2(){
-		assertEquals(railID,sub2.getRailCardID());
-		assertEquals(routeID,sub2.getRouteID());
-		assertEquals(datumvan,sub2.getValidFrom());
-		assertEquals(datumtot,sub2.getValidUntil());
 	}
 	
 	@Test

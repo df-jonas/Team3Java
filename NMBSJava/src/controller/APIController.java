@@ -267,6 +267,8 @@ public class APIController
 		jsonString = jsonString.replace(":false", ":0");
 		jsonString = jsonString.replace(":true", ":1");
 		
+		System.out.println(jsonString);
+		
 		put.setEntity(new StringEntity(jsonString));
 
 		return client.execute(put);

@@ -97,14 +97,14 @@ public class SyncRailCardRunnable implements Runnable {
 							biggerMap.remove(key);
 							smallerMap.remove(key);
 						}
-						else if (bItem.getLastUpdated() > sItem.getLastUpdated())
-						{
-							smallerMap.replace(key, bItem);
-						}
-						else
-						{
-							biggerMap.replace(key, sItem);
-						}
+					}
+					if (bItem.getLastUpdated() > sItem.getLastUpdated())
+					{
+						smallerMap.replace(key, bItem);
+					}
+					else
+					{
+						biggerMap.replace(key, sItem);
 					}
 				}
 			}

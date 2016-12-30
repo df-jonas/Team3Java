@@ -311,7 +311,7 @@ public class RouteDAO extends BaseDAO
 			}
 		}
 	}
-	public Route selectOneOnRoute(String van, String naar)
+	public Route selectOneOnRoute(String vanID, String naarID)
 	{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -324,7 +324,7 @@ public class RouteDAO extends BaseDAO
 				+ "FROM Route r "
 				+ "INNER JOIN Station s1 on s1.StationID = r.DepartureStationID "
 				+ "INNER JOIN Station s2 on s2.StationID = r.ArrivalStationID "
-				+ "WHERE s1.Name = ? AND s2.Name = ?;";
+				+ "WHERE s1.StationID = ? AND s2.StationID = ?;";
 		
 		try {
 
@@ -333,8 +333,8 @@ public class RouteDAO extends BaseDAO
 			}
 			ps = getConnection().prepareStatement(sql);
 
-			ps.setString(1, van);
-			ps.setString(2, naar);
+			ps.setString(1, vanID);
+			ps.setString(2, naarID);
 			rs = ps.executeQuery();
 			if (rs.next())
 				return resultToModel(rs);

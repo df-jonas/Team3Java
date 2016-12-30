@@ -2,58 +2,93 @@ package services;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.UUID;
 
 import org.json.JSONArray;
 
-import controller.APIController;
-import controller.APIController.APIUrl;
-import controller.APIController.RequestType;
-
 public class APIThread extends Thread
 {
-	private JSONArray apiResult;
-	private APIController api;
-	private ThreadListener listener;
-	private boolean metResult;
+	private static APIThread apiThread;
+	private static Queue<APIRequest> workQueue;
+	private static HashMap<UUID, ThreadListener> threadListeners;
 	
 	
-	public APIThread(APIUrl apiUrl, String url, RequestType requestType, HashMap<String, String> params)
+	private APIThread()
 	{
-		super();
-		this.api = new APIController(apiUrl, url, requestType, params);
-		this.metResult = true;
+		super("api-thread");
+		workQueue  = new LinkedList<APIRequest>();
+		threadListeners = new HashMap<UUID, ThreadListener>();
 	}
 	
-	public APIThread(APIUrl apiUrl, String url, RequestType requestType, HashMap<String, String> params, Boolean metResult)
+	public static APIThread getThread()
 	{
-		super();
-		this.api = new APIController(apiUrl, url, requestType, params);
-		this.metResult = metResult;
+		if (apiThread == null || !apiThread.isAlive())
+			apiThread = new APIThread();
+		return apiThread;
+	}
+
+	public void addAPIRequest(APIRequest newRequest)
+	{
+		synchronized (workQueue)
+		{
+			workQueue.add(newRequest);
+			
+			if (!this.isAlive())
+				this.start();
+		}
 	}
 	
-	public void setListener(ThreadListener listener)
+	public void addListener(UUID requestID, ThreadListener listener)
 	{
-		this.listener = listener;
+		synchronized (threadListeners)
+		{
+			threadListeners.put(requestID, listener);
+		}
+	}
+	
+	private ThreadListener getListener(UUID requestID)
+	{
+		return threadListeners.get(requestID);
 	}
 
 	@Override
 	public void run()
 	{
-		try {
-			apiResult = api.getJsonResult();
-			if (metResult)
-				listener.setResult(apiResult);
-
+		while(!workQueue.isEmpty())
+		{
+			try {
+				APIRequest r = workQueue.poll();
+				JSONArray apiResult = r.getApi().getJsonResult();
+				if (r.isMetResult())
+				{
+					getListener(r.getRequestID()).setResult(apiResult);
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		catch (UnsupportedOperationException | IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 	
-	public APIController getAPIController()
-	{
-		return this.api;
-	}
+//	public APIThread(APIUrl apiUrl, String url, RequestType requestType, HashMap<String, String> params)
+//	{
+//		super();
+//		this.api = new APIController(apiUrl, url, requestType, params);
+//		this.metResult = true;
+//	}
+//	
+//	public APIThread(APIUrl apiUrl, String url, RequestType requestType, HashMap<String, String> params, Boolean metResult)
+//	{
+//		super();
+//		this.api = new APIController(apiUrl, url, requestType, params);
+//		this.metResult = metResult;
+//	}
+	
+//	public APIController getAPIController()
+//	{
+//		return this.api;
+//	}
 
 }

@@ -16,6 +16,7 @@ import gui.LangageHandler;
 import model.SettingsSingleton;
 import model.Staff;
 import panels.LoginPanel;
+import services.APIRequest;
 import services.APIThread;
 import services.JBcryptVerifier;
 import services.ThreadListener;
@@ -65,7 +66,8 @@ public class LoginController{
 			params.put("username", usrn);
 			params.put("password", password);
 
-			APIThread irailsAPI = new APIThread(APIUrl.G3, "staff/login", RequestType.POST, params);
+			UUID requestID = UUID.randomUUID();
+			APIRequest request = new APIRequest(requestID, APIUrl.G3, "staff/login", RequestType.POST, params);
 			ThreadListener listener = new ThreadListener() {
 				
 				@Override
@@ -90,8 +92,9 @@ public class LoginController{
 				
 			};
 			
-			irailsAPI.setListener(listener);
-			irailsAPI.start();
+			APIThread apiThread = APIThread.getThread();
+			apiThread.addListener(requestID, listener);
+			apiThread.addAPIRequest(request);
 		}
 		else
 		{

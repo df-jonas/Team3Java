@@ -68,9 +68,9 @@ public class StaffDAO extends BaseDAO
 				params.put("userName", s.getUserName());
 				params.put("password", s.getPassword());
 				params.put("rights", Integer.toString(s.getRights()));
-				params.put("birthDate", s.getLastName());
+				params.put("birthDate", s.getBirthDate());
 				params.put("email", s.getEmail());
-				params.put("apiToken", s.getBirthDate());
+				params.put("apiToken", s.getApiToken());
 				params.put("lastUpdated", Long.toString(s.getLastUpdated()));
 			}
 
@@ -136,9 +136,9 @@ public class StaffDAO extends BaseDAO
 				params.put("userName", s.getUserName());
 				params.put("password", s.getPassword());
 				params.put("rights", Integer.toString(s.getRights()));
-				params.put("birthDate", s.getLastName());
+				params.put("birthDate", s.getBirthDate());
 				params.put("email", s.getEmail());
-				params.put("apiToken", s.getBirthDate());
+				params.put("apiToken", s.getApiToken());
 				params.put("lastUpdated", Long.toString(s.getLastUpdated()));
 			}
 
