@@ -34,7 +34,7 @@ public class GroepsreservatieController {
 	private static String trein;
 	private static int aantalReizigers;
 	private static String time;
-	private static boolean vanOke = false, naarOke = false;
+	private static boolean vanOke = true, naarOke = true;
 	private static double prijs;
 	private static UUID routeID;
 	public static void startListening(GroepsReservatiePanel reservatie) {
@@ -105,8 +105,8 @@ public class GroepsreservatieController {
 	}
 
 	private static void zoekTreinen(GroepsReservatiePanel reservatie) {
-		van = (String) reservatie.getAutVan().getSelectedItem();
-		naar = (String) reservatie.getAutNaar().getSelectedItem();
+		van = reservatie.getAutVan().getSelectedItem().toString();
+		naar = reservatie.getAutNaar().getSelectedItem().toString();
 		datum = reservatie.getDteDate().getJFormattedTextField().getText();
 		time = reservatie.getTmeTime().getText();
 		
@@ -132,10 +132,10 @@ public class GroepsreservatieController {
 				{
 					if (data != null) {
 						JSONObject json = data.getJSONObject(0);
-	
+	     
 						RouteBerekening rb = new RouteBerekening(json);
 	
-						if (rb.getConnections() != null)
+						if (rb.getConnections() == null)
 							return;
 						
 						for (Connection con : rb.getConnections())
