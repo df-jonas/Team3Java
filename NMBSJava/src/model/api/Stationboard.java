@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
+import gui.LangageHandler;
+
 public class Stationboard
 {
 	private String station;
@@ -29,7 +31,7 @@ public class Stationboard
 	
 	public String toString() {
 		String ss = "";
-		ss += "Treinen vanuit " + station + "\n\n";
+		ss += LangageHandler.chooseLangage("treinVanuit") + " " + station + "\n\n";
 		for (int i = 0; i < trains.size() && i < 10; i++) {
 			ss += trains.get(i).getTime().getDeparture().substring(11, 16) + " " + trains.get(i).getTerminusStation();
 			ss += "\n";

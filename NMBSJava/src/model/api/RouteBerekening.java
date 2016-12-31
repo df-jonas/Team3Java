@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import gui.LangageHandler;
+
 public class RouteBerekening
 {
 	private String van;
@@ -76,12 +78,12 @@ public class RouteBerekening
 			ss += "\n";
 
 			// ROUTE EXTRA INFO
-			ss += this.getConnections().get(i).getDuration() + " minuten";
+			ss += this.getConnections().get(i).getDuration() + " " +LangageHandler.chooseLangage("minuten");
 			if (!this.getConnections().get(i).getNumberOfVias().equals("0")) {
-				ss += " - " + this.getConnections().get(i).getNumberOfVias() + " keer overstappen";
+				ss += " - " + this.getConnections().get(i).getNumberOfVias() + " " + LangageHandler.chooseLangage("overstappen");
 			}
 			if (!this.getConnections().get(i).getDeparture().getCancelled().equals("0")) {
-				ss += " - AFGELAST";
+				ss += " - " + LangageHandler.chooseLangage("afgelast");
 			}
 			ss += "\n\n";
 

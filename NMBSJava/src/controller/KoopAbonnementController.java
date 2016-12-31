@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,17 +13,26 @@ import java.util.UUID;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import controller.Prijsberekening.TypeKeuze;
 import dao.AddressDAO;
 import dao.CustomerDAO;
+import dao.DiscountDAO;
 import dao.RailCardDAO;
 import dao.RouteDAO;
+import dao.StationDAO;
 import dao.SubscriptionDAO;
+import dao.TypeTicketDAO;
 import gui.GUIDateFormat;
+import gui.TicketTypesAutoCompletor;
 import model.Address;
 import model.Customer;
+import model.Discount;
 import model.RailCard;
 import model.Route;
+import model.Station;
 import model.Subscription;
+import model.Ticket;
+import model.TypeTicket;
 import panels.NieuwAbonnementPanel;
 
 public class KoopAbonnementController {
@@ -31,13 +41,11 @@ public class KoopAbonnementController {
 	private static UUID routeID;
 	private static UUID railcardID;
 
-	
 	public static void startListening(NieuwAbonnementPanel abonnement) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				abonnement.getBtnVerzenden().setEnabled(false);
-				
-				
+
 				try {
 					String startDatum = abonnement.getDteStartDatum().getJFormattedTextField().getText();
 					Calendar c = GUIDateFormat.dateToCalendar((Date) GUIDateFormat.stringToObject(startDatum));
@@ -53,14 +61,12 @@ public class KoopAbonnementController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						abonnement.getLblFoutmelding().setText("");
-						String customerID =abonnement.getTxtCustomerID().getText();
-
+						String customerID = abonnement.getTxtCustomerID().getText();
 
 						CustomerDAO daoCustomer = new CustomerDAO();
 						Customer c = daoCustomer.selectOne(customerID);
-						
-						if (c != null)
-						{
+
+						if (c != null) {
 							abonnement.setTxtVoornaam(c.getFirstName());
 							abonnement.setTxtNaam(c.getLastName());
 							abonnement.setTxtEmail(c.getEmail());
@@ -68,9 +74,8 @@ public class KoopAbonnementController {
 							abonnement.setTxtGemeente(c.getAddress().getCity());
 							abonnement.setTxtStraat(c.getAddress().getStreet());
 							abonnement.setTxtNummer(Integer.toString(c.getAddress().getNumber()));
-							abonnement.setTxtPostcode(Integer.toString(c.getAddress().getZipCode()));							
+							abonnement.setTxtPostcode(Integer.toString(c.getAddress().getZipCode()));
 						}
-						
 
 					}
 				});
@@ -79,9 +84,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -91,9 +98,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -103,9 +112,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -115,9 +126,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -127,9 +140,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -139,9 +154,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -151,9 +168,11 @@ public class KoopAbonnementController {
 					public void changedUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void removeUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
+
 					public void insertUpdate(DocumentEvent e) {
 						abonnement.getBtnVerzenden().setEnabled(false);
 					}
@@ -237,9 +256,48 @@ public class KoopAbonnementController {
 
 					public void actionPerformed(ActionEvent ae) {
 						if (correctFormulier(abonnement)) {
-							// prijsberekening
-							abonnement.getLblPrint().setText("100");
-							abonnement.getBtnVerzenden().setEnabled(true);
+
+							String s1String = (String) abonnement.getTxtStation1().getSelectedItem();
+							String s2String = (String) abonnement.getTxtStation2().getSelectedItem();
+							int klasse = abonnement.getGrpKlasses().getSelection().getMnemonic();
+							StationDAO handler = new StationDAO();
+							Station s1 = handler.selectOneOnName(s1String);
+							Station s2 = handler.selectOneOnName(s2String);
+
+							TypeTicketDAO handler2 = new TypeTicketDAO();
+							TypeTicket type = null;
+							ArrayList<TypeTicket> list = handler2.selectAll();
+
+							DiscountDAO handler5 = new DiscountDAO();
+							Discount d = handler5
+									.selectOneOnName((String) abonnement.getCbxDiscount().getSelectedItem());
+
+							for (int i = 0; i < list.size(); i++) {
+								if (list.get(i).getName().contains("Standaardticket")
+										&& list.get(i).getComfortClass() == klasse) {
+									type = list.get(i);
+								}
+							}
+
+							if (type != null) {
+								String duur = (String) abonnement.getCbxDuur().getSelectedItem();
+								int factor = 0;
+								double disc = d.getAmount();
+								if (duur.contains("1 maand")) {
+									factor = 1;
+								} else if (duur.contains("3 maanden")) {
+									factor = 3;
+								} else if (duur.contains("12 maanden")) {
+									factor = 12;
+								}
+
+								double prijs = Prijsberekening.berekenPrijs(s1, s2, TypeKeuze.ABONNEMENT, type.getTypeTicketID().toString()) / 12 * factor;
+								prijs = prijs - prijs * disc;
+
+								abonnement.getLblPrint().setText(prijs + " euro");
+
+								abonnement.getBtnVerzenden().setEnabled(true);
+							}
 						} else {
 							abonnement.getLblPrint().setText("0");
 						}
@@ -249,17 +307,59 @@ public class KoopAbonnementController {
 				abonnement.getBtnVerzenden().addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-					
-						
+
 						if (correctFormulier(abonnement)) {
+
+							String s1String = (String) abonnement.getTxtStation1().getSelectedItem();
+							String s2String = (String) abonnement.getTxtStation2().getSelectedItem();
+							int klasse = abonnement.getGrpKlasses().getSelection().getMnemonic();
+							StationDAO handler = new StationDAO();
+							Station s1 = handler.selectOneOnName(s1String);
+							Station s2 = handler.selectOneOnName(s2String);
+
+							TypeTicketDAO handler2 = new TypeTicketDAO();
+							TypeTicket type = null;
+							ArrayList<TypeTicket> list = handler2.selectAll();
+							
+							DiscountDAO handler5 = new DiscountDAO();
+							Discount d = handler5
+									.selectOneOnName((String) abonnement.getCbxDiscount().getSelectedItem());
+							
+							for (int i = 0; i < list.size(); i++) {
+								if (list.get(i).getName().contains("Standaardticket")
+										&& list.get(i).getComfortClass() == klasse) {
+									type = list.get(i);
+								}
+							}
+
+							if (type != null) {
+								String duur = (String) abonnement.getCbxDuur().getSelectedItem();
+								int factor = 0;
+								double disc = d.getAmount();
+								if (duur.contains("1 maand")) {
+									factor = 1;
+								} else if (duur.contains("3 maanden")) {
+									factor = 3;
+								} else if (duur.contains("12 maanden")) {
+									factor = 12;
+								}
+
+								double prijs = Prijsberekening.berekenPrijs(s1, s2, TypeKeuze.ABONNEMENT, type.getTypeTicketID().toString()) / 12 * factor;
+								prijs = prijs - prijs * disc;
+
+								abonnement.getLblPrint().setText(prijs + " euro");
+
+								abonnement.getBtnVerzenden().setEnabled(true);
+							}
+
 							// customer aanmaken
 							if (!customerCheck(abonnement)) {
 								createCustomer(abonnement);
 							}
-							
+
 							vanID = abonnement.getTxtStation1().getSelectedStation();
 							naarID = abonnement.getTxtStation2().getSelectedStation();
-							
+
 							readRouteID();
 							createAbonnement(abonnement);
 
@@ -271,19 +371,19 @@ public class KoopAbonnementController {
 	}
 
 	public static Boolean customerCheck(NieuwAbonnementPanel abonnement) {
-		
+
 		String abonnementCustomerID = abonnement.getLblCustomerID().getText();
-		
+
 		CustomerDAO daoCustomer = new CustomerDAO();
 		Customer customer = daoCustomer.selectOne(abonnementCustomerID);
 
 		if (customer == null)
 			return false;
-		else 
+		else
 			railcardID = customer.getRailCard().getRailCardID();
-		
+
 		return true;
-	} 
+	}
 
 	public static Boolean correctFormulier(NieuwAbonnementPanel abonnement) {
 		String naam = abonnement.getTxtNaam().getText();
@@ -300,21 +400,11 @@ public class KoopAbonnementController {
 		String station1 = abonnement.getTxtStation1().getSelectedItem().toString();
 		String station2 = abonnement.getTxtStation2().getSelectedItem().toString();
 
-		if (
-				!naam.equals("") 
-				&& !voornaam.equals("") 
-				&& DateTimeConverter.checkDate(geboorteDatum) 
-				&& !email.equals("")
-				&& !straat.equals("") && !nummer.equals("") 
-				&& !postcode.equals("")
-				&& !gemeente.equals("") 
-				&& !treinkaart.equals(null) 
-				&& DateTimeConverter.checkDate(startDatum)
-				&& !korting.equals(null) 
-				&& !station1.equals("") 
-				&& !station2.equals("")
-			) {
-			
+		if (!naam.equals("") && !voornaam.equals("") && DateTimeConverter.checkDate(geboorteDatum) && !email.equals("")
+				&& !straat.equals("") && !nummer.equals("") && !postcode.equals("") && !gemeente.equals("")
+				&& !treinkaart.equals(null) && DateTimeConverter.checkDate(startDatum) && !korting.equals(null)
+				&& !station1.equals("") && !station2.equals("")) {
+
 			if (!email.contains("@")) {
 				abonnement.getLblFoutmelding().setText("Geen geldig e-mailadres.");
 				return false;
@@ -356,13 +446,13 @@ public class KoopAbonnementController {
 		return vervalDatum;
 
 	}
-	
+
 	public static void readRouteID() {
-		//readStationID();
+		// readStationID();
 
 		RouteDAO daoRoute = new RouteDAO();
 		Route route = daoRoute.selectOneOnRoute(vanID.toString(), naarID.toString());
-		
+
 		if (route == null)
 			createRoute();
 		else
@@ -370,13 +460,12 @@ public class KoopAbonnementController {
 
 	}
 
-
 	public static void createRoute() {
 
 		Route r = new Route(vanID, naarID);
 		RouteDAO daoRoute = new RouteDAO();
 		daoRoute.insert(r);
-
+		routeID = r.getRouteID();
 	}
 
 	public static void createAbonnement(NieuwAbonnementPanel abonnement) {
@@ -386,10 +475,10 @@ public class KoopAbonnementController {
 
 		HashMap<String, UUID> discounts = abonnement.getDiscounts();
 		UUID discountID = discounts.get(korting);
-		
+
 		System.out.println(railcardID);
 		System.out.println(routeID);
-		
+
 		Subscription sub = new Subscription(railcardID, routeID, discountID, startDatum, vervalDatum);
 		SubscriptionDAO daoSubscription = new SubscriptionDAO();
 		daoSubscription.insert(sub);
@@ -397,25 +486,27 @@ public class KoopAbonnementController {
 	}
 
 	public static void createCustomer(NieuwAbonnementPanel abonnement) {
-		int nummer =  Integer.parseInt(abonnement.getTxtNummer().getText());
-		int postcode =  Integer.parseInt(abonnement.getTxtPostcode().getText());
+		int nummer = Integer.parseInt(abonnement.getTxtNummer().getText());
+		int postcode = Integer.parseInt(abonnement.getTxtPostcode().getText());
 		String geboorteDatum = abonnement.getDteGeboorteDatum().getJFormattedTextField().getText();
-		
+
 		// Aanmaken new models
-		Address address = new Address(abonnement.getTxtStraat().getText(), nummer , abonnement.getTxtGemeente().getText(), postcode, "");
+		Address address = new Address(abonnement.getTxtStraat().getText(), nummer,
+				abonnement.getTxtGemeente().getText(), postcode, "");
 		RailCard railcard = new RailCard();
-		Customer customer = new Customer(abonnement.getTxtVoornaam().getText(), abonnement.getTxtNaam().getText(), geboorteDatum,  abonnement.getTxtEmail().getText(), address, railcard);
-				
+		Customer customer = new Customer(abonnement.getTxtVoornaam().getText(), abonnement.getTxtNaam().getText(),
+				geboorteDatum, abonnement.getTxtEmail().getText(), address, railcard);
+
 		railcardID = railcard.getRailCardID();
-		
+
 		// populaten extra variabelen voor dao gemakelijkheid
-		
-		//alle modelen wegschrijven naar de database in correcte order
-		
+
+		// alle modelen wegschrijven naar de database in correcte order
+
 		AddressDAO addressHandler = new AddressDAO();
 		RailCardDAO railCardHandler = new RailCardDAO();
 		CustomerDAO customerHandler = new CustomerDAO();
-		
+
 		addressHandler.insert(address);
 		railCardHandler.insert(railcard);
 		customerHandler.insert(customer);

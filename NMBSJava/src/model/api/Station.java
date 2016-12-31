@@ -2,6 +2,8 @@ package model.api;
 
 import org.json.JSONObject;
 
+import gui.LangageHandler;
+
 public class Station
 {
 	private String name;
@@ -32,12 +34,12 @@ public class Station
 		if (!json.get("ArrivalPlatform").equals(null))
 			this.arrivalPlatform = json.getString("ArrivalPlatform");
 		else
-			this.arrivalPlatform = "Niet gekend";
+			this.arrivalPlatform = LangageHandler.chooseLangage("nietGekend");
 		
 		if (!json.get("DeparturePlatform").equals(null))
 			this.departurePlatform = json.getString("DeparturePlatform");
 		else
-			this.departurePlatform = "Niet gekend";
+			this.departurePlatform = LangageHandler.chooseLangage("nietGekend");
 		
 		if (!json.get("Time").equals(null))
 			this.time = new TrainTime(json.getJSONObject("Time"));
@@ -47,7 +49,7 @@ public class Station
 		if (!json.get("Platform").equals(null))
 			this.platform = json.getString("Platform");
 		else
-			this.platform = "Niet Gekend";
+			this.platform = LangageHandler.chooseLangage("nietGekend");
 	}
 
 	public String getName()

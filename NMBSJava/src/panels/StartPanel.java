@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import gui.LangageHandler;
+
 @SuppressWarnings("serial")
 public class StartPanel extends JPanel {
 
@@ -22,7 +24,7 @@ public class StartPanel extends JPanel {
 		lblTitle.setBounds(10, 0, 440, 48);
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		String s = "<html><p>Deze applicatie werd ontworpen door"
+		String s = "<html><p>"+ LangageHandler.chooseLangage("start")
 				+ "<ul>"
 				+ "<li>Jonas D.F.</li>"
 				+ "<li>Ian K.</li>"
@@ -33,7 +35,7 @@ public class StartPanel extends JPanel {
 				+ "<li>Youssef I.</li>"
 				+ "</ul>"
 				+ "<br>"
-				+ "Klik op een onderdeel om door te gaan.</p>"
+				+ LangageHandler.chooseLangage("klik") + "</p>"
 				+ "</html>";
 		lblDescr = new JLabel(s);
 		lblDescr.setVerticalAlignment(SwingConstants.TOP);

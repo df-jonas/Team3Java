@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,13 +19,15 @@ import panels.NieuwAbonnementPanel;
 import panels.PasPrijzenAanPanel;
 import panels.PassPanel;
 import panels.RouteberekeningPanel;
-import panels.StaffToevoegenPanel;
+import panels.StaffBeheerPanel;
 import panels.StartPanel;
 import panels.StationboardPanel;
 import panels.TreinopzoekingPanel;
 import panels.VerlengAbonnementPanel;
 import panels.VerlorenVoorwerpMaakPanel;
 import panels.VerlorenVoorwerpZoekPanel;
+import panels.KlantZoekPanel;
+import panels.KlantPasAanPanel;
 
 public class GUIController {
 
@@ -46,8 +49,10 @@ public class GUIController {
 	private static VerlengAbonnementPanel verlengAbonnement;
 	private static VerlorenVoorwerpZoekPanel verlorenVoorwerpZoek;
 	private static VerlorenVoorwerpMaakPanel verlorenVoorwerpMaak;
-	private static StaffToevoegenPanel staff;
+	private static StaffBeheerPanel staff;
 	private static PasPrijzenAanPanel prijzenAanpassen;
+	private static KlantZoekPanel klantZoek;
+	private static KlantPasAanPanel klantPasAan;
 
 	private static SettingsSingleton settings;
 	
@@ -124,7 +129,7 @@ public class GUIController {
 		
 		if (settings.getRights() == 0) {
 			nav.getBtnPrijzenAanpassen().setEnabled(false);
-			nav.getBtnVoegMedewerker().setEnabled(false);
+			nav.getBtnStaffBeheer().setEnabled(false);
 		}
 		// startpanel
 		start = new StartPanel();
@@ -213,14 +218,26 @@ public class GUIController {
 					}
 				});
 				
-				nav.getBtnVoegMedewerker().addActionListener(new ActionListener() {
+				nav.getBtnStaffBeheer().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						startVoegMedewerker();
+						startStaffBeheer();
 					}
 				});
 				nav.getBtnPrijzenAanpassen().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						startPrijzenAanpassen();
+					}
+				});
+				
+				nav.getBtnKlantZoek().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						startKlantZoek();
+					}
+				});
+				
+				nav.getBtnKlantPasAan().addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						startKlantPasAan();
 					}
 				});
 				
@@ -355,13 +372,13 @@ public class GUIController {
 		VerlorenVoorwerpMaakController.startListening(verlorenVoorwerpMaak);
 	}
 	
-	private static void startVoegMedewerker() {
-		staff = new StaffToevoegenPanel();
+	private static void startStaffBeheer() {
+		staff = new StaffBeheerPanel();
 		frame.setTitle("NMBSTeam - Voeg nieuwe medewerker");
 		frame.getContentPane().remove(frame.getContentPane().getComponentCount() - 1);
 		frame.getContentPane().add(staff);
 		frame.setContentPane(frame.getContentPane());
-		StaffToevoegenController.startListening(staff);
+		StaffBeheerController.startListening(staff);
 	}
 		
 	private static void startPrijzenAanpassen() {
@@ -371,6 +388,24 @@ public class GUIController {
 		frame.getContentPane().add(prijzenAanpassen);
 		frame.setContentPane(frame.getContentPane());
 		PasPrijzenAanController.startListening(prijzenAanpassen);
+	}
+	
+	private static void startKlantZoek() {
+		klantZoek = new KlantZoekPanel();
+		frame.setTitle("NMBSTeam - Zoek klant");
+		frame.getContentPane().remove(frame.getContentPane().getComponentCount() - 1);
+		frame.getContentPane().add(klantZoek);
+		frame.setContentPane(frame.getContentPane());
+		KlantZoekController.startListening(klantZoek);
+	}
+	
+	private static void startKlantPasAan() {
+		klantPasAan = new KlantPasAanPanel();
+		frame.setTitle("NMBSTeam - Pas klant aan");
+		frame.getContentPane().remove(frame.getContentPane().getComponentCount() - 1);
+		frame.getContentPane().add(klantPasAan);
+		frame.setContentPane(frame.getContentPane());
+		KlantPasAanController.startListening(klantPasAan);
 	}
 
 	public static GUIFrame getFrame() {

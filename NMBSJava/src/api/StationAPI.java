@@ -2,6 +2,8 @@ package api;
 
 import org.json.JSONObject;
 
+import gui.LangageHandler;
+
 public class StationAPI {
 	private String name;
 	private String coordinates;
@@ -16,18 +18,18 @@ public class StationAPI {
 		if (!json.get("ArrivalPlatform").equals(null)) {
 			this.arrivalPlatform = json.getString("ArrivalPlatform");
 		} else
-			this.arrivalPlatform = "Niet gekend";
+			this.arrivalPlatform = LangageHandler.chooseLangage("nietGekend");
 		if (!json.get("DeparturePlatform").equals(null)) {
 			this.departurePlatform = json.getString("DeparturePlatform");
 		} else
-			this.departurePlatform = "Niet gekend";
+			this.departurePlatform = LangageHandler.chooseLangage("nietGekend");
 		if (!json.get("Time").equals(null)) {
 			this.time = new TimeAPI(json.getJSONObject("Time"));
 		} else this.time = new TimeAPI();
 		if (!json.get("Platform").equals(null)) {
 			this.platform = json.getString("Platform");
 		} else
-			this.platform = "Niet Gekend";
+			this.platform = LangageHandler.chooseLangage("nietGekend");
 	}
 
 	public String getName() {

@@ -10,23 +10,20 @@ import org.json.JSONArray;
 
 import controller.APIController.APIUrl;
 import controller.APIController.RequestType;
+import gui.LangageHandler;
 import model.api.Train;
 import panels.TreinopzoekingPanel;
 import services.APIRequest;
 import services.APIThread;
 import services.ThreadListener;;
 
-public class TreinopzoekingController
-{
+public class TreinopzoekingController {
 
-	public static void startListening(TreinopzoekingPanel trein)
-	{
+	public static void startListening(TreinopzoekingPanel trein) {
 		EventQueue.invokeLater(new Runnable() {
-			public void run()
-			{
+			public void run() {
 				trein.getBtnZoek().addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e)
-					{
+					public void actionPerformed(ActionEvent e) {
 
 						String tId = trein.getTxtTrein().getText();
 
@@ -38,8 +35,7 @@ public class TreinopzoekingController
 							ThreadListener listener = new ThreadListener() {
 
 								@Override
-								public void setResult(JSONArray data)
-								{
+								public void setResult(JSONArray data) {
 									if (data != null) {
 										Train train = new Train(data.getJSONObject(0));
 
@@ -51,9 +47,8 @@ public class TreinopzoekingController
 															.replaceAll(">", "&gt;").replaceAll("\n", "<br/>")
 															+ "</html>");
 
-									}
-									else {
-										trein.getLblResult().setText("Dit verzoek kon niet verwerkt worden.");
+									} else {
+										LangageHandler.chooseLangageLbl(trein.getLblResult(), "verzoek");
 									}
 								}
 
@@ -63,11 +58,9 @@ public class TreinopzoekingController
 							apiThread.addListener(requestID, listener);
 							apiThread.addAPIRequest(request);
 
-						}
-						else {
-							trein.getLblResult().setText("Formulier werd niet correct ingevuld.");
-							// LangageHandler.chooseLangageLbl(trein.getLblResult(),
-							// taal, );
+						} else {
+							LangageHandler.chooseLangageLbl(trein.getLblResult(), "foutRes");
+
 						}
 
 					}

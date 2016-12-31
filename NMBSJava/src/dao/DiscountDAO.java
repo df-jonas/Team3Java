@@ -259,6 +259,47 @@ public class DiscountDAO extends BaseDAO
 			}
 		}
 	}
+	
+	public Discount selectOneOnName(String name)
+	{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT d.DiscountID, d.Name as DiscountName, d.Amount as DiscountAmount, d.LastUpdated as DiscountLastUpdated FROM Discount d WHERE d.Name=?";
+
+		try {
+
+			if (getConnection().isClosed()) {
+				throw new IllegalStateException("error unexpected");
+			}
+			ps = getConnection().prepareStatement(sql);
+
+			ps.setString(1, name);
+			rs = ps.executeQuery();
+			if (rs.next())
+				return resultToModel(rs);
+			else
+				return null;
+
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException(e.getMessage());
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				if (rs != null)
+					rs.close();
+			}
+			catch (SQLException e) {
+
+				System.out.println(e.getMessage());
+				throw new RuntimeException("error.unexpected");
+			}
+		}
+	}
 
 
 	public static Discount resultToModel(ResultSet rs) throws SQLException

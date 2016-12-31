@@ -104,7 +104,7 @@ public class VerlorenVoorwerpZoekPanel extends JPanel {
 		search.add(btnGevonden);
 		
 		btnZoek = new JButton();
-		LangageHandler.chooseLangageBtn(btnZoek, "zoekTrein");
+		LangageHandler.chooseLangageBtn(btnZoek, "zoekVoorwerpTrein");
 		search.add(btnZoek);
 
 		
@@ -167,5 +167,11 @@ public class VerlorenVoorwerpZoekPanel extends JPanel {
 	public JTextField getTxtOmschrijving() {
 		return txtOmschrijving;
 	}
+
+	public JButton getBtnGevonden() {
+		return btnGevonden;
+	}
+	
+	
 
 }

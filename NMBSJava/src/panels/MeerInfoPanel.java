@@ -2,12 +2,13 @@ package panels;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import gui.LangageHandler;
 
+@SuppressWarnings("serial")
 public class MeerInfoPanel extends JPanel {
+	
 private JLabel lblTitle;
 private JLabel lblNaam;
 private JLabel lblNaamResult;
@@ -28,16 +29,25 @@ private JLabel lblStraatEnNummerResult;
 
 	public MeerInfoPanel() {
 		this.setLayout(new GridLayout(9, 2));
-		lblTitle = new JLabel("Meer info");
+		lblTitle = new JLabel();
+		LangageHandler.chooseLangageLbl(lblTitle, "meerInfo");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNaam = new JLabel("Naam: ");
-		lblVoornaam = new JLabel("Voornaam: ");
-		lblGeboortedatum = new JLabel("Geboortedatum: ");
-		lblEmail = new JLabel("Email: ");
-		lblTelefoonnummer = new JLabel("Telefoonnummer: ");
-		lblGemeente = new JLabel("Gemeente: ");
-		lblPostcode = new JLabel("Postcode: ");
-		lblStraatEnNummer = new JLabel("Straat + nr: ");
+		lblNaam = new JLabel();
+		LangageHandler.chooseLangageLbl(lblNaam, "naam");
+		lblVoornaam = new JLabel();
+		LangageHandler.chooseLangageLbl(lblVoornaam, "voornaam");
+		lblGeboortedatum = new JLabel();
+		LangageHandler.chooseLangageLbl(lblGeboortedatum, "geboortedatum");
+		lblEmail = new JLabel();
+		LangageHandler.chooseLangageLbl(lblEmail, "email");
+		lblTelefoonnummer = new JLabel();
+		LangageHandler.chooseLangageLbl(lblTelefoonnummer, "telefoonNummer");
+		lblGemeente = new JLabel();
+		LangageHandler.chooseLangageLbl(lblGemeente, "gemeente");
+		lblPostcode = new JLabel();
+		LangageHandler.chooseLangageLbl(lblPostcode, "postcode");
+		lblStraatEnNummer = new JLabel();
+		LangageHandler.chooseLangageLbl(lblStraatEnNummer, "straatNr");
 		
 		lblNaamResult = new JLabel("");
 		lblVoornaamResult = new JLabel("");

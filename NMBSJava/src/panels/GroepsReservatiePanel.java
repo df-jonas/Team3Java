@@ -1,28 +1,19 @@
 package panels;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Properties;
-
 import javax.swing.*;
-
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
 import com.github.lgooddatepicker.components.TimePicker;
-
 import gui.GUIDateFormat;
 import gui.LangageHandler;
 import gui.StationsAutoCompletor;
 
+@SuppressWarnings("serial")
 public class GroepsReservatiePanel extends JPanel {
-
-	/**
-	 * Create the panel.
-	 */
 
 	private StationsAutoCompletor autVan;
 	private JLabel lblVan;
@@ -41,15 +32,18 @@ public class GroepsReservatiePanel extends JPanel {
 		this.setLayout(new GridLayout(9, 2, 5, 5));
 
 		// title
-		lblTitle = new JLabel("Reservatie maken");
+		lblTitle = new JLabel();
+		LangageHandler.chooseLangageLbl(lblTitle, "reservatie");
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 		// labelVan
-		lblVan = new JLabel("Van: ");
+		lblVan = new JLabel();
+		LangageHandler.chooseLangageLbl(lblVan, "van");
 		autVan = new StationsAutoCompletor();
 
 		// labelNaar
-		lblNaar = new JLabel("Naar: ");
+		lblNaar = new JLabel();
+		LangageHandler.chooseLangageLbl(lblNaar, "naar");
 		autNaar = new StationsAutoCompletor();
 
 		// datepicker properties
@@ -75,7 +69,8 @@ public class GroepsReservatiePanel extends JPanel {
 		aantPersonen = new JSpinner(model);
 
 		// print
-		btnPrint = new JButton("Print");
+		btnPrint = new JButton();
+		LangageHandler.chooseLangageBtn(btnPrint, "print");
 		// prijs
 		lblPrijs = new JLabel(" € 0 ");
 		lblPrijs.setHorizontalAlignment(SwingConstants.CENTER);
