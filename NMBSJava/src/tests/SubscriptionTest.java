@@ -3,7 +3,6 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -16,7 +15,6 @@ import model.Subscription;
 
 public class SubscriptionTest {
 	private Subscription sub;
-	private Subscription sub2;
 	private UUID subscriptionID = UUID.fromString("a379845f-bb4f-4a1f-9748-9d1bb7dfc431");
 	private UUID railID = UUID.fromString("71acee22-8c4d-464e-85e1-058e7c9306ce");
 	private UUID routeID= UUID.fromString("03e20178-ea89-4450-9680-3b20855f2947");

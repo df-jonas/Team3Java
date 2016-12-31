@@ -23,7 +23,6 @@ import dao.StationDAO;
 import dao.SubscriptionDAO;
 import dao.TypeTicketDAO;
 import gui.GUIDateFormat;
-import gui.TicketTypesAutoCompletor;
 import model.Address;
 import model.Customer;
 import model.Discount;
@@ -31,7 +30,6 @@ import model.RailCard;
 import model.Route;
 import model.Station;
 import model.Subscription;
-import model.Ticket;
 import model.TypeTicket;
 import panels.NieuwAbonnementPanel;
 

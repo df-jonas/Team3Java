@@ -1,14 +1,13 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.UUID;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import controller.URLCon;
+
 import model.Address;
 
 public class AddressTest
