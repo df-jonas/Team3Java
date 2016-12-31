@@ -25,7 +25,7 @@ public class PassTypesAutoCompletor extends JComboBox<String>
 		AutoCompleteDecorator.decorate(this);
 	}
 	
-	public UUID getSelectedDiscount()
+	public UUID getSelectedPassType()
 	{
 		return list.get(this.getSelectedIndex()).getTypePassID();	
 	}

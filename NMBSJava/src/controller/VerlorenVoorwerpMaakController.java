@@ -1,24 +1,17 @@
 package controller;
 
 import java.awt.EventQueue;
-
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
-
-
-import gui.Popup;
-
-import model.Station;
-import panels.VerlorenVoorwerpMaakPanel;
 import dao.LostObjectDAO;
 import dao.StationDAO;
+import gui.Popup;
 import model.LostObject;
+import model.Station;
+import panels.VerlorenVoorwerpMaakPanel;
 
 public class VerlorenVoorwerpMaakController {
 	public static void startListening(VerlorenVoorwerpMaakPanel verlorenVoorwerpMaak) {		
@@ -44,9 +37,9 @@ public class VerlorenVoorwerpMaakController {
 						}
 						else 
 						{
-							int treinnum = 0;
+							
 							try {
-								treinnum=Integer.parseInt(verlorenVoorwerpMaak.getTxtTrein().getText());
+								treinnummer = verlorenVoorwerpMaak.getTxtTrein().getText();
 							}catch (NumberFormatException e1){
 								Popup.warningMessage("treinnummerWarningPopup", "WarningPopupTitel");
 								check = false;
