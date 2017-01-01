@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.UUID;
 
@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Line;
-import model.Route;
 
 public class LineTest {
 	private UUID lineID = UUID.fromString("066a0147-674e-478f-b1c8-7a21e266c170");

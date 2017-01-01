@@ -5,10 +5,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
@@ -22,6 +26,8 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.ssl.TrustStrategy;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -147,8 +153,11 @@ public class APIController
 		return new JSONArray(result);
 	}
 
+	@SuppressWarnings("resource")
 	private HttpResponse getRequest() throws ClientProtocolException, IOException
 	{
+		HttpClient client;
+		
 		if (this.base_url.equals(BASE_URL_IR)) {
 			this.params.putIfAbsent("format", "json");
 			this.params.putIfAbsent("timeSel", "depart");
@@ -169,17 +178,33 @@ public class APIController
 		}
 		
 		String finalUrl = this.base_url + url;
-		if (this.base_url.equals(BASE_URL_TT))
+		
+		switch (this.base_url)
 		{
+		case BASE_URL_TT:
+			client = HttpClientBuilder.create().build();
 			finalUrl = finalUrl.replace(" ", "_");
 			finalUrl = finalUrl.replace("-", "_");
-		}
-		else if (this.base_url.equals(BASE_URL_IR))
-		{
+			break;
+		case BASE_URL_IR:
+			try
+			{
+				client = getUnsecureSsl();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				client = HttpClientBuilder.create().build();
+			}
 			finalUrl = finalUrl.replace(" ", "+");
+			break;
+		default:
+			client = HttpClientBuilder.create().build();
+			break;
 		}
 		
-		HttpClient client = HttpClientBuilder.create().build();
+
+		
 		HttpGet get = new HttpGet(finalUrl);
 
 		// add header
@@ -215,7 +240,7 @@ public class APIController
 		for (Map.Entry<String, String> entry : this.params.entrySet()) {
 			urlParameters.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		}
-
+		
 		post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
 		return client.execute(post);
@@ -272,6 +297,23 @@ public class APIController
 		put.setEntity(new StringEntity(jsonString));
 
 		return client.execute(put);
+	}
+	
+	private HttpClient getUnsecureSsl() throws Exception
+	{
+
+		SSLContext sslContext = SSLContexts.custom()
+		        .loadTrustMaterial(null, new TrustStrategy() {
+	
+		            @Override
+		            public boolean isTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
+		                return true;
+		            }
+		        })
+		        
+		        .build();
+		
+		return HttpClientBuilder.create().setSSLContext(sslContext).build();
 	}
 	
 	public String getUrl()

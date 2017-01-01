@@ -3,11 +3,7 @@ package controller;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.UUID;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import controller.Prijsberekening.TypeKeuze;
 import dao.RouteDAO;
@@ -29,10 +25,6 @@ public class KoopBiljetController {
 	private static UUID routeID;
 	private static String begindatum;
 	private static String einddatum;
-	private static int typeKlasseSelectedMnem;
-	private static int vanID;
-	private static int naarID;
-	private static String prijs;
 
 	public static void startListening(BiljetPanel biljet)  {
 		EventQueue.invokeLater(new Runnable() {
@@ -46,7 +38,7 @@ public class KoopBiljetController {
 						einddatum = biljet.getDteTerugDatum().getJFormattedTextField().getText();
 						//int typeHeenTerugSelectedMnem = biljet.getGrpHeenTerug().getSelection().getMnemonic();
 						String soortBiljet = (String)biljet.getCboBiljet().getSelectedItem();
-						prijs = biljet.getLblPrijs().getText();
+						
 
 						if (!van.equals("") && !naar.equals("") && DateTimeConverter.checkDate(begindatum)
 								&& DateTimeConverter.checkDate(einddatum) && !soortBiljet.equals(null)) {

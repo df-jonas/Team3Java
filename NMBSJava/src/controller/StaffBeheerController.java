@@ -4,17 +4,16 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.UUID;
 
-import panels.StaffBeheerPanel;
-import services.JBcryptVerifier;
-import model.Station;
-import model.Address;
-import model.Staff;
-import dao.StationDAO;
-import gui.Popup;
 import dao.AddressDAO;
 import dao.StaffDAO;
+import dao.StationDAO;
+import gui.Popup;
+import model.Address;
+import model.Staff;
+import model.Station;
+import panels.StaffBeheerPanel;
+import services.JBcryptVerifier;
 
 public class StaffBeheerController {
 	public static void startListening(StaffBeheerPanel staff) {

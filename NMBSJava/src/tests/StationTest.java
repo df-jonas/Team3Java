@@ -8,13 +8,11 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Address;
 import model.Station;
 
 public class StationTest {
 
 	private Station station;
-	private Address adres;
 	private UUID stationID = UUID.fromString("3a795185-c01c-4a5d-9a32-606faabceb0f");
 	private long lastUpdated = 1482929273;
 
