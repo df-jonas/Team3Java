@@ -18,8 +18,7 @@ import gui.LangageHandler;
 import gui.StationsAutoCompletor;
 
 @SuppressWarnings("serial")
-public class StaffBeheerPanel  extends JPanel{
-
+public class StaffBeheerPanel extends JPanel {
 
 	private JLabel lblTitel;
 	private JLabel lblVoornaam;
@@ -34,6 +33,7 @@ public class StaffBeheerPanel  extends JPanel{
 	private JLabel lblUsername;
 	private JLabel lblPassword;
 	private JLabel lblAdmin;
+	private JLabel lblCoordinates;
 
 	private JTextField txtVoornaam;
 	private JTextField txtAchternaam;
@@ -44,6 +44,7 @@ public class StaffBeheerPanel  extends JPanel{
 	private JTextField txtPostcode;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
+	private JTextField txtCoordinates;
 
 	private JButton btnVoegToe;
 	private JButton btnWijzig;
@@ -59,15 +60,15 @@ public class StaffBeheerPanel  extends JPanel{
 		setLayout(new GridLayout(1, 1, 5, 5));
 
 		JPanel content = new JPanel();
-		content.setLayout(new GridLayout(15,2,5,5));
+		content.setLayout(new GridLayout(16, 2, 5, 5));
 
-		////1
+		//// 1
 		lblTitel = new JLabel();
 		LangageHandler.chooseLangageLbl(lblTitel, "titelStaff");
 		content.add(lblTitel);
 		content.add(new JLabel());
 
-		/////2
+		///// 2
 		lblVoornaam = new JLabel();
 		LangageHandler.chooseLangageLbl(lblVoornaam, "naam");
 		txtVoornaam = new JTextField();
@@ -75,7 +76,7 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblVoornaam);
 		content.add(txtVoornaam);
 
-		/////3
+		///// 3
 		lblAchternaam = new JLabel();
 		LangageHandler.chooseLangageLbl(lblAchternaam, "voornaam");
 		txtAchternaam = new JTextField();
@@ -83,7 +84,7 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblAchternaam);
 		content.add(txtAchternaam);
 
-		/////4
+		///// 4
 		lblDatum = new JLabel();
 		LangageHandler.chooseLangageLbl(lblDatum, "geboortedatum");
 		content.add(lblDatum);
@@ -97,8 +98,8 @@ public class StaffBeheerPanel  extends JPanel{
 		datePicker = new JDatePickerImpl(datePanel, new GUIDateFormat());
 		datePicker.getJFormattedTextField().setText(GUIDateFormat.getDate());
 		content.add(datePicker);
-		
-		///////////////
+
+		/////// 5
 		lblEmail = new JLabel();
 		LangageHandler.chooseLangageLbl(lblEmail, "email");
 		txtEmail = new JTextField();
@@ -106,7 +107,7 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblEmail);
 		content.add(txtEmail);
 
-		/////5
+		///// 6
 		lblStraat = new JLabel();
 		LangageHandler.chooseLangageLbl(lblStraat, "straat");
 		txtStraat = new JTextField();
@@ -114,7 +115,7 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblStraat);
 		content.add(txtStraat);
 
-		//////6
+		////// 7
 		lblNummer = new JLabel();
 		LangageHandler.chooseLangageLbl(lblNummer, "nummer");
 		txtNummer = new JTextField();
@@ -122,15 +123,15 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblNummer);
 		content.add(txtNummer);
 
-		//////7
+		////// 8
 		lblGemeente = new JLabel();
 		LangageHandler.chooseLangageLbl(lblGemeente, "gemeente");
 		txtGemeente = new JTextField();
-		txtGemeente.setColumns(1);	
+		txtGemeente.setColumns(1);
 		content.add(lblGemeente);
 		content.add(txtGemeente);
 
-		///////8
+		/////// 9
 		lblPostcode = new JLabel();
 		LangageHandler.chooseLangageLbl(lblPostcode, "postcode");
 		txtPostcode = new JTextField();
@@ -138,14 +139,22 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblPostcode);
 		content.add(txtPostcode);
 
-		///////9
+		/////// 10
+		lblCoordinates = new JLabel();
+		LangageHandler.chooseLangageLbl(lblCoordinates, "coordinates");
+		txtCoordinates = new JTextField();
+		txtCoordinates.setColumns(1);
+		content.add(lblCoordinates);
+		content.add(txtCoordinates);
+
+		/////// 11
 		lblStation = new JLabel();
 		LangageHandler.chooseLangageLbl(lblStation, "station");
 		txtStation = new StationsAutoCompletor();
 		content.add(lblStation);
 		content.add(txtStation);
 
-		////////10
+		//////// 12
 		lblUsername = new JLabel();
 		LangageHandler.chooseLangageLbl(lblUsername, "username");
 		txtUsername = new JTextField();
@@ -153,7 +162,7 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblUsername);
 		content.add(txtUsername);
 
-		/////////11
+		///////// 13
 		lblPassword = new JLabel();
 		LangageHandler.chooseLangageLbl(lblPassword, "password");
 		txtPassword = new JPasswordField();
@@ -161,33 +170,32 @@ public class StaffBeheerPanel  extends JPanel{
 		content.add(lblPassword);
 		content.add(txtPassword);
 
-		/////////12
+		///////// 14
 		lblAdmin = new JLabel();
-		LangageHandler.chooseLangageLbl(lblAdmin,"rechten");
+		LangageHandler.chooseLangageLbl(lblAdmin, "rechten");
 		content.add(lblAdmin);
 
 		rdbJa = new JRadioButton();
 		LangageHandler.chooseLangageRdb(rdbJa, "ja");
 		content.add(rdbJa);
-		rdbNee=new JRadioButton();
+
+		/////// 15
+		rdbNee = new JRadioButton();
 		LangageHandler.chooseLangageRdb(rdbNee, "nee");
 		content.add(new JLabel());
 		content.add(rdbNee);
 
-		/////////13
+		///////// 16
 		btnWijzig = new JButton();
 		LangageHandler.chooseLangageBtn(btnWijzig, "wijzigStaff");
-		
+
 		btnVoegToe = new JButton();
 		LangageHandler.chooseLangageBtn(btnVoegToe, "voegStaff");
-		
+
 		content.add(btnWijzig);
 		content.add(btnVoegToe);
 
-
-
 		this.add(content);
-
 
 	}
 
@@ -218,7 +226,6 @@ public class StaffBeheerPanel  extends JPanel{
 	public JLabel getLblNummer() {
 		return lblNummer;
 	}
-
 
 	public JLabel getLblPostcode() {
 		return lblPostcode;
@@ -304,7 +311,11 @@ public class StaffBeheerPanel  extends JPanel{
 		return btnWijzig;
 	}
 
-	
-	
+	public JLabel getLblCoordinates() {
+		return lblCoordinates;
+	}
 
+	public JTextField getTxtCoordinates() {
+		return txtCoordinates;
+	}
 }

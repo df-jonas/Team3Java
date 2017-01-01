@@ -7,6 +7,7 @@ import java.util.Properties;
 import java.awt.Font;
 import org.jdatepicker.impl.*;
 import gui.GUIDateFormat;
+import gui.LangageHandler;
 
 @SuppressWarnings("serial")
 public class KlantPasAanPanel extends JPanel {
@@ -50,7 +51,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//1
 		lblTitel = new JLabel();
-		lblTitel.setText("Pas klant aan");
+		LangageHandler.chooseLangageLbl(lblTitel, "pasKlant");
 		lblTitel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		edit.add(lblTitel);
 		
@@ -60,6 +61,7 @@ public class KlantPasAanPanel extends JPanel {
 		//2
 		lblID = new JLabel();
 		lblID.setText("Aanpassen op ID");
+		LangageHandler.chooseLangageLbl(lblID, "pasID");
 		lblID.setToolTipText(lblID.getText());
 		lblID.setPreferredSize(new Dimension(80,40));
 		edit.add(lblID);
@@ -68,7 +70,7 @@ public class KlantPasAanPanel extends JPanel {
 		edit.add(txtID);
 		
 		lblAddressID = new JLabel();
-		lblAddressID.setText("Geef ook Adres ID");
+		LangageHandler.chooseLangageLbl(lblAddressID, "pasAdres");
 		edit.add(lblAddressID);
 		
 		txtAddressID = new JTextField();
@@ -83,7 +85,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//4
 		lblFirst = new JLabel();
-		lblFirst.setText("Voornaam");
+		LangageHandler.chooseLangageLbl(lblFirst, "voornaam");
 		edit.add(lblFirst);
 		
 		
@@ -93,7 +95,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//5
 		lblLast = new JLabel();
-		lblLast.setText("Achternaam");
+		LangageHandler.chooseLangageLbl(lblLast, "naam");
 		edit.add(lblLast);
 		
 		
@@ -104,7 +106,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//6
 		lblBirth = new JLabel();
-		lblBirth.setText("Geboortedatum");
+		LangageHandler.chooseLangageLbl(lblBirth, "datum");
 		edit.add(lblBirth);
 		
 		
@@ -123,7 +125,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//7
 		lblEmail = new JLabel();
-		lblEmail.setText("Emailadres");
+		LangageHandler.chooseLangageLbl(lblEmail, "email");
 		edit.add(lblEmail);
 		
 		txtEmail = new JTextField();
@@ -131,7 +133,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//8
 		lblStreet = new JLabel();
-		lblStreet.setText("Straat");
+		LangageHandler.chooseLangageLbl(lblStreet, "straat");
 		edit.add(lblStreet);
 		
 		txtStreet = new JTextField();
@@ -139,7 +141,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//9
 		lblNumber = new JLabel();
-		lblNumber.setText("Huisnummer");
+		LangageHandler.chooseLangageLbl(lblNumber, "nummer");
 		edit.add(lblNumber);
 		
 		txtNumber = new JTextField();
@@ -147,7 +149,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//10
 		lblCity = new JLabel();
-		lblCity.setText("Stad");
+		LangageHandler.chooseLangageLbl(lblCity, "gemeente");
 		edit.add(lblCity);
 		
 		txtCity = new JTextField();
@@ -155,7 +157,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//11
 		lblZipCode = new JLabel();
-		lblZipCode.setText("Postcode");
+		LangageHandler.chooseLangageLbl(lblZipCode, "postcode");
 		edit.add(lblZipCode);
 		
 		txtZipCode = new JTextField();
@@ -163,7 +165,7 @@ public class KlantPasAanPanel extends JPanel {
 		
 		//12
 		lblCoordinates = new JLabel();
-		lblCoordinates.setText("Coordinaten");
+		LangageHandler.chooseLangageLbl(lblCoordinates, "coordinates");
 		edit.add(lblCoordinates);
 		
 		txtCoordinates = new JTextField();
@@ -172,7 +174,7 @@ public class KlantPasAanPanel extends JPanel {
 		edit.add(new JLabel());
 		
 		btnPasAan = new JButton();
-		btnPasAan.setText("Pas Aan");
+		LangageHandler.chooseLangageBtn(btnPasAan, "pasAaan");
 		edit.add(btnPasAan);
 		
 		this.add(edit);
