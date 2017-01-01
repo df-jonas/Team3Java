@@ -1,6 +1,7 @@
 package panels;
 
 import javax.swing.*;
+import gui.LangageHandler;
 import java.awt.GridLayout;
 import java.awt.Font;
 
@@ -48,51 +49,51 @@ public class KlantZoekPanel extends JPanel {
 				
 		//3
 				lblKlantNr = new JLabel();
-				lblKlantNr.setText("Klantnummer: ");
+				LangageHandler.chooseLangageLbl(lblKlantNr,"klantennummer");
 				search.add(lblKlantNr);
 			
 				txtKlantNr = new JTextField();
 				search.add(txtKlantNr);
 				
 				btnZoek = new JButton();
-				btnZoek.setText("Zoek");
+				LangageHandler.chooseLangageBtn(btnZoek, "zoek");
 				search.add(btnZoek);
 
 		//4
 				lblKaartNr = new JLabel();
-				lblKaartNr.setText("Kaartnummer: ");
+				LangageHandler.chooseLangageLbl(lblKaartNr, "kaartnummer");
 				search.add(lblKaartNr);
 			
 				txtKaartNr = new JTextField();
 				search.add(txtKaartNr);
 				
 				btnZoek1 = new JButton();
-				btnZoek1.setText("Zoek");
+				LangageHandler.chooseLangageBtn(btnZoek1, "zoek");
 				search.add(btnZoek1);
 				
 				
 				lblKlantVoorNaam = new JLabel();
-				lblKlantVoorNaam.setText("Voornaam: ");
+				LangageHandler.chooseLangageLbl(lblKlantVoorNaam, "voornaam");
 				search.add(lblKlantVoorNaam);
 			
 				txtKlantVoorNaam = new JTextField();
 				search.add(txtKlantVoorNaam);
 				
 				btnZoek3 = new JButton();
-				btnZoek3.setText("Zoek");
+				LangageHandler.chooseLangageBtn(btnZoek3, "zoek");
 				search.add(btnZoek3);
 
 				
 		//5
 				lblKlantNaam = new JLabel();
-				lblKlantNaam.setText("Achternaam: ");
+				LangageHandler.chooseLangageLbl(lblKlantNaam, "naam");
 				search.add(lblKlantNaam);
 			
 				txtKlantNaam = new JTextField();
 				search.add(txtKlantNaam);
 				
 				btnZoek2 = new JButton();
-				btnZoek2.setText("Zoek");
+				LangageHandler.chooseLangageBtn(btnZoek2, "zoek");
 				search.add(btnZoek2);
 				
 		//6
