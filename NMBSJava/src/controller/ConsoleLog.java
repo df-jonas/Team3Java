@@ -13,8 +13,12 @@ import gui.GUIDateFormat;
 
 public class ConsoleLog extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1385096271372831910L;
+	
 	private static JLabel console;
-	private static String txt = "";
 
 	public ConsoleLog() {
 		setLayout(new GridLayout(1, 1, 0, 0));

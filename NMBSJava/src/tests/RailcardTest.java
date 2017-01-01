@@ -9,17 +9,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.RailCard;
+import model.Subscription;
 
 public class RailcardTest
 {
 	private RailCard railcard;
-	private ArrayList subs;
+	private ArrayList<Subscription> subs;
 	private long lastUpdated;
 	@Before
 	public void setUp() throws Exception
 	{
 		railcard = new RailCard();
-		subs = new ArrayList();
+		subs = new ArrayList<Subscription>();
 		railcard.setLastUpdated(lastUpdated);
 	}
 
@@ -40,7 +41,7 @@ public class RailcardTest
 	@Test
 	public void ArrayTest()
 	{
-		subs.add(railcard);
+		subs.add(new Subscription());
 		assertEquals(1, subs.size());
 		assertEquals(railcard, subs.get(0));
 	}
