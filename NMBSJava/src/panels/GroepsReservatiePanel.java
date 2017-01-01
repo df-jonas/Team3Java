@@ -3,8 +3,6 @@ package panels;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Properties;
-
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -13,13 +11,10 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
 import com.github.lgooddatepicker.components.TimePicker;
-
 import gui.GUIDateFormat;
 import gui.LangageHandler;
 import gui.StationsAutoCompletor;

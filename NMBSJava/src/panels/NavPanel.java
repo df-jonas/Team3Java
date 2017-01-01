@@ -89,10 +89,12 @@ public class NavPanel extends JPanel {
 		LangageHandler.chooseLangageBtn(btnStaffBeheer, "voegMedewerker");
 		btnStaffBeheer.setHorizontalAlignment(SwingConstants.LEFT);
 
-		btnKlantZoek = new JButton("Zoek een klant");
+		btnKlantZoek = new JButton();
+		LangageHandler.chooseLangageBtn(btnKlantZoek, "zoekEenKlant");
 		btnKlantZoek.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		btnKlantPasAan = new JButton("Pas een klant aan");
+		btnKlantPasAan = new JButton();
+		LangageHandler.chooseLangageBtn(btnKlantPasAan, "pasKlantAan");
 		btnKlantPasAan.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		btnLogout = new JButton();

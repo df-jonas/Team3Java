@@ -4,14 +4,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Properties;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -20,7 +17,7 @@ import gui.GUIDateFormat;
 import gui.LangageHandler;
 import gui.PassTypesAutoCompletor;
 
-@SuppressWarnings({"serial", "rawtypes", "unchecked"})
+@SuppressWarnings({"serial"})
 public class PassesEnKaartenPanel extends JPanel {
 
 	private JLabel lblTitle;
@@ -79,8 +76,6 @@ public class PassesEnKaartenPanel extends JPanel {
 		dteStartDatum = new JDatePickerImpl(datePanel2, new GUIDateFormat());
 		dteStartDatum.getJFormattedTextField().setText(GUIDateFormat.getDate());
 		
-		//wtf
-		String[] passType = {LangageHandler.chooseLangage("goPass"), LangageHandler.chooseLangage("keyCard"), LangageHandler.chooseLangage("railPass")};
 		cbxPassType = new PassTypesAutoCompletor();
 		
 		c.gridx = 0;
