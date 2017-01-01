@@ -1,17 +1,24 @@
 package panels;
 
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.Properties;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.*;
-import java.util.Properties;
-import org.jdatepicker.impl.*;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import gui.GUIDateFormat;
 import gui.LangageHandler;
+import gui.PassTypesAutoCompletor;
 
 @SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class PassesEnKaartenPanel extends JPanel {
@@ -33,7 +40,7 @@ public class PassesEnKaartenPanel extends JPanel {
 	
 	private JDatePickerImpl dteStartDatum;
 	
-	private JComboBox cbxPassType;
+	private PassTypesAutoCompletor cbxPassType;
 	
 	public PassesEnKaartenPanel() {
 		this.setLayout(new GridBagLayout());
@@ -57,7 +64,7 @@ public class PassesEnKaartenPanel extends JPanel {
 		LangageHandler.chooseLangageLbl(lblPassType, "type");
 		btnPrint = new JButton();
 		LangageHandler.chooseLangageBtn(btnPrint, "print");
-		lblPrint = new JLabel("€0");
+		lblPrint = new JLabel("ï¿½0");
 		lblRes = new JLabel();
 		
 		grpKlasses = new ButtonGroup();
@@ -72,8 +79,9 @@ public class PassesEnKaartenPanel extends JPanel {
 		dteStartDatum = new JDatePickerImpl(datePanel2, new GUIDateFormat());
 		dteStartDatum.getJFormattedTextField().setText(GUIDateFormat.getDate());
 		
+		//wtf
 		String[] passType = {LangageHandler.chooseLangage("goPass"), LangageHandler.chooseLangage("keyCard"), LangageHandler.chooseLangage("railPass")};
-		cbxPassType = new JComboBox(passType);
+		cbxPassType = new PassTypesAutoCompletor();
 		
 		c.gridx = 0;
 		c.gridy = 0;
@@ -159,7 +167,7 @@ public class PassesEnKaartenPanel extends JPanel {
 		return dteStartDatum;
 	}
 
-	public JComboBox getCbxPassType() {
+	public PassTypesAutoCompletor getCbxPassType() {
 		return cbxPassType;
 	}
 

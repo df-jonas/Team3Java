@@ -1,18 +1,17 @@
 package controller;
 
 import java.awt.BorderLayout;
-
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
 
 import gui.GUIFrame;
 import gui.LangageHandler;
 import model.SettingsSingleton;
 import panels.BiljetPanel;
 import panels.GroepsReservatiePanel;
+import panels.KlantPasAanPanel;
+import panels.KlantZoekPanel;
 import panels.LoginPanel;
 import panels.NavPanel;
 import panels.NieuwAbonnementPanel;
@@ -26,8 +25,6 @@ import panels.TreinopzoekingPanel;
 import panels.VerlengAbonnementPanel;
 import panels.VerlorenVoorwerpMaakPanel;
 import panels.VerlorenVoorwerpZoekPanel;
-import panels.KlantZoekPanel;
-import panels.KlantPasAanPanel;
 
 public class GUIController {
 

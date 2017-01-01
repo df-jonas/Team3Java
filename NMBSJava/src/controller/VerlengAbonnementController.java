@@ -159,7 +159,7 @@ public class VerlengAbonnementController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String abonnementsNummer = abonnement.getTxtAbonnementsNummer().getText();
-						String ticketTypeID = abonnement.getCbxTreinkaart().getSelectedDiscount().toString();
+						String ticketTypeID = abonnement.getCbxTreinkaart().getSelectedPassType().toString();
 						String kortingID = abonnement.getCbxDiscount().getSelectedDiscount().toString();
 						String duur = abonnement.getCbxDuur().getSelectedItem().toString();
 						String startdatum = abonnement.getDteStartdatum().getJFormattedTextField().getText();
@@ -223,7 +223,7 @@ public class VerlengAbonnementController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String abonnementsNummer = abonnement.getTxtAbonnementsNummer().getText();
-						String ticketTypeID = abonnement.getCbxTreinkaart().getSelectedDiscount().toString();
+						String ticketTypeID = abonnement.getCbxTreinkaart().getSelectedPassType().toString();
 						String kortingID = abonnement.getCbxDiscount().getSelectedDiscount().toString();
 						String duur = abonnement.getCbxDuur().getSelectedItem().toString();
 						String startdatum = abonnement.getDteStartdatum().getJFormattedTextField().getText();

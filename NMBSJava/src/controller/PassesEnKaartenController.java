@@ -3,15 +3,13 @@ package controller;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.UUID;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import dao.TypePassDAO;
+import dao.PassDAO;
+import model.Pass;
 import panels.PassesEnKaartenPanel;
 
 public class PassesEnKaartenController {
@@ -22,32 +20,17 @@ public class PassesEnKaartenController {
 					passes.getBtnPrint().addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							String startDatum = passes.getDteStartDatum().getJFormattedTextField().getText();
-							int typePass = passes.getCbxPassType().getSelectedIndex();
+							UUID typePass = passes.getCbxPassType().getSelectedPassType();
 							int mnem = passes.getGrpKlasses().getSelection().getMnemonic();
 
 							DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 							Calendar cal = Calendar.getInstance();
 							String date = dateFormat.format(cal);
 							
+							Pass pass = new Pass(typePass, date, startDatum, mnem);
+							PassDAO passHandler = new PassDAO();
+							passHandler.insert(pass);
 						
-
-							String base = "http://nmbs-team.tk/api/pass/create";
-							String url = base + "?TypePassID="+typePass+"&Date="+date+"&StartDate="+startDatum+"&ComfortClass="+mnem;
-
-							JSONObject temp;
-							try {
-								temp = new JSONObject(URLCon.readUrl(url, "POST"));
-								int var1 = temp.getInt("StatusCode");
-								if (var1 == 200) {
-									passes.getLblRes().setText("Pass aangemaakt");
-								} else {
-									passes.getLblRes().setText("Pass niet aangemaakt; kijk de velden na en probeer opnieuw");
-								}
-							} catch (JSONException e1) {
-								e1.printStackTrace();
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
 						}
 					});
 				}
